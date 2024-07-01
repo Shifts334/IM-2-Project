@@ -1,0 +1,133 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#dashboardMainContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+div.dashboard_sidebar {
+    width: 20%;
+    background: rgba(14, 31, 14, 0.954);
+    height: 100vh;
+    padding: 0; /* Ensure no padding */
+}
+
+div.dashboard_content_container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard_logo {
+    color: #eeedbd;
+    font-size: 30px;
+    text-align: center;
+    background-color: #2e712e98;
+    padding: 1%;
+    border-bottom: 2px solid rgb(238, 237, 189);
+    margin-bottom: 20px;
+}
+
+div.dashboard_sidebar_user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    text-align: center;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+div.dashboard_sidebar_user img {
+    width: 60px;
+    display: inline-block;
+    border-radius: 10%;
+    border: 2px solid #13cd02;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+div.dashboard_sidebar_user span {
+    top: 20%;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #eeedbd;
+    display: inline-block;
+}
+
+div.dashboard_topNav {
+    color: darkgreen;
+    padding: 20px;
+}
+
+div.dashboard_topNav a {
+    color: darkgreen;
+    font-size: 20px;
+}
+
+div.dashboard_content_topNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #a59d6d;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+div.dashboard_content_topNav a {
+    text-decoration: none;
+    color: #dbd6d6;
+}
+
+div.dashboard_content {
+    flex: 1;
+    padding: 20px;
+}
+
+div.dashboard_content_main {
+    background-color: #fff;
+    height: 500px;
+}
+
+a#logoutBtn {
+    float: right;
+}
+
+ul.dashboard_menu_lists {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-transform: uppercase;
+}
+
+ul.dashboard_menu_lists li {
+    padding: 15px 20px;
+    font-size: 16px;
+    text-transform: uppercase;
+    list-style: none;
+}
+
+ul.dashboard_menu_lists li a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+}
+
+ul.dashboard_menu_lists li a:hover {
+    color: #fff;
+}
+
+ul.dashboard_menu_lists li:hover {
+    background: rgba(181, 173, 117, 0.444);
+    color: #fff;
+    transition: background 0.3s, color 0.3s;
+}
