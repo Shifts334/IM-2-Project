@@ -3,7 +3,6 @@
     <h3 class="dashboard_logo" id="dashboard_logo">Palm Grass Hotel</h3>
     <div class="dashboard_sidebar_user">
         <img src="images/userImg.png" alt="User" id="userImage"/>
-        <i class="fa fa-user-circle" aria-hidden="true"></i>
         <span> <?=$user['fname'].' '.$user['lname']?></span>
     </div>
 

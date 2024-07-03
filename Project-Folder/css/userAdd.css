@@ -30,6 +30,7 @@ form label{
 }
 div.addFormContainer{
     margin-bottom: 15px;
+    font-size: 18px;
 }
 
 div#userAddContainer{
@@ -71,10 +72,10 @@ div.row{
 }
 
 div.column-5{
-    width: 41.67%;
+    width: 35.67%;
 }
 div.column-7{
-    width: 56.33%;
+    width: 63.33%;
     padding-left: 10px;
 }
 
@@ -88,9 +89,8 @@ h2.profiles{
     margin-bottom: 15px;
 }
 
-thead, table, th {
-    font-size: 13px;
-    text-transform: uppercase;
+thead, table, th{
+    font-size: 15px;
     text-align: left;
     background: #f4f6f9;
 }
@@ -102,15 +102,16 @@ table, td, th {
 table{
     width: 100%;
 }
-
-
-table, td{
-    font-size: 12px;
-}
-td, th{
-    padding: 8px;
+td{
+    font-size: 13px;
+    padding: 2px;
 }
 
+p.userCount{
+    color: green;
+    font-size: 15px;
+
+}
 
 
 /* stopped at 11:29 */
