@@ -64,7 +64,7 @@ include('partials/header.php');
                         <table>
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>ID</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
@@ -75,10 +75,9 @@ include('partials/header.php');
                             </thead>
                             <tbody>
                                 <?php
-                                $index = 0;
                                 foreach ($users as $user) { ?>
                                     <tr>
-                                        <td><?= ++$index ?></td>
+                                        <td><?= htmlspecialchars($user['id']) ?></td>
                                         <td class="fname"><?= htmlspecialchars($user['fname']) ?></td>
                                         <td class="lname"><?= htmlspecialchars($user['lname']) ?></td>
                                         <td class="email"><?= htmlspecialchars($user['email']) ?></td>
