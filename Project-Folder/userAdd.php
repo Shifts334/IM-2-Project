@@ -1,120 +1,105 @@
 <?php
 // session start
 session_start();
-if(!isset($_SESSION['user'])) header('location: login.php');
-$_SESSION['table'] = 'users'; 
+if (!isset($_SESSION['user'])) header('location: login.php');
+$_SESSION['table'] = 'users';
 $user = $_SESSION['user'];
 $users = include('database/showUsers.php');
+
+$pageTitle = 'User Add';
+include('partials/header.php');
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/dashboard.css">
-    <link rel="stylesheet" type="text/css" href="css/userAdd.css">
-    <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
-    <script src="https://example.com/fontawesome/v6.5.2/js/fontawesome.js" data-auto-replace-svg="nest"></script>
-    <script src="https://example.com/fontawesome/v6.5.2/js/solid.js"></script>
-    <script src="https://example.com/fontawesome/v6.5.2/js/brands.js"></script>
-    <title>User Add</title>
-</head>
-<body>
-    <div id="dashboardMainContainer">
-        <?php include('partials/sideBar.php') ?>
+<div id="dashboardMainContainer">
+    <?php include('partials/sideBar.php') ?>
 
-        <div class="dashboard_content_container" id="dashboard_content_container">
-            <?php include('partials/topNavBar.php') ?>
+    <div class="dashboard_content_container" id="dashboard_content_container">
+        <?php include('partials/topNavBar.php') ?>
 
-            <div class="dashboard_content">
-                <div class="row">
-                    <div class="column column-5">
-                        <h2 class="profiles"><i class="fa fa-plus"></i>Add / Edit Profile</h2>
-                        <div class="dashboard_content_main">
-                            <div id="userAddContainer">
-                                <form action="database/user_DB_add.php" method="POST" class="AddForm">
-                                    <input type="hidden" name="id" id="user_id">
-                                    <div class="addFormContainer">
-                                        <label for="fname" class="formInput">First Name</label>
-                                        <input type="text" class="formInput" name="fname" id="fname">
-                                    </div>
-                                    <div class="addFormContainer">
-                                        <label for="lname" class="formInput">Last Name</label>
-                                        <input type="text" class="formInput" name="lname" id="lname">
-                                    </div>
-                                    <div class="addFormContainer">
-                                        <label for="email">Email</label>
-                                        <input type="text" class="formInput" name="email" id="email">
-                                    </div>
-                                    <div class="addFormContainer">
-                                        <label for="password">Password</label>
-                                        <input type="text" class="formInput" name="password" id="password">
-                                    </div>
-                                    <button type="submit" class="addBtn"><i class="fa fa-send"></i> Submit Form</button>
-                                </form>
-                                <?php
-                                    if(isset($_SESSION['response'])){
-                                        $response_message = $_SESSION['response']['message'];
-                                        $is_success = $_SESSION['response']['success'];
-                                ?>
-                                    <div class="responseMessage">
-                                        <p class="responseMessage <?=$is_success ? 'responseMessage_success' : 'responseMessage_error' ?>">
-                                            <?=$response_message ?>
-                                        </p>
-                                    </div>
-                                <?php unset($_SESSION['response']); } ?>
-                            </div>
+        <div class="dashboard_content">
+            <div class="row">
+                <div class="column column-5">
+                    <h2 class="profiles"><i class="fa fa-plus"></i>Add / Edit Profile</h2>
+                    <div class="dashboard_content_main">
+                        <div id="userAddContainer">
+                            <form action="database/user_DB_add.php" method="POST" class="AddForm">
+                                <input type="hidden" name="id" id="user_id">
+                                <div class="addFormContainer">
+                                    <label for="fname" class="formInput">First Name</label>
+                                    <input type="text" class="formInput" name="fname" id="fname">
+                                </div>
+                                <div class="addFormContainer">
+                                    <label for="lname" class="formInput">Last Name</label>
+                                    <input type="text" class="formInput" name="lname" id="lname">
+                                </div>
+                                <div class="addFormContainer">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="formInput" name="email" id="email">
+                                </div>
+                                <div class="addFormContainer">
+                                    <label for="password">Password</label>
+                                    <input type="text" class="formInput" name="password" id="password">
+                                </div>
+                                <button type="submit" class="addBtn"><i class="fa fa-send"></i> Submit Form</button>
+                            </form>
+                            <?php
+                            if (isset($_SESSION['response'])) {
+                                $response_message = $_SESSION['response']['message'];
+                                $is_success = $_SESSION['response']['success'];
+                            ?>
+                                <div class="responseMessage">
+                                    <p class="responseMessage <?= $is_success ? 'responseMessage_success' : 'responseMessage_error' ?>">
+                                        <?= $response_message ?>
+                                    </p>
+                                </div>
+                            <?php unset($_SESSION['response']);
+                            } ?>
                         </div>
                     </div>
+                </div>
 
-                    <div class="column column-7">
-                        <h2 class="profiles"><i class="fa fa-list"></i>List of Users</h2>
-                        <div class="users">
-                            <table>
-                                <thead>
+                <div class="column column-7">
+                    <h2 class="profiles"><i class="fa fa-list"></i>List of Users</h2>
+                    <div class="users">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Created At</th>
+                                    <th>Updated At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $index = 0;
+                                foreach ($users as $user) { ?>
                                     <tr>
-                                        <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Email</th>
-                                        <th>Created At</th>
-                                        <th>Updated At</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                    $index = 0;
-                                    foreach($users as $user) { ?>
-                                        <tr>
-                                            <td><?= ++$index ?></td>
-                                            <td class="fname"><?= htmlspecialchars($user['fname']) ?></td>
-                                            <td class="lname"><?= htmlspecialchars($user['lname']) ?></td>
-                                            <td class="email"><?= htmlspecialchars($user['email']) ?></td>
-                                            <td><?= date('M d, Y @ h:i:s: A', strtotime($user['created_at'])) ?></td>
-                                            <td><?= date('M d, Y @ h:i:s: A', strtotime($user['updated_at'])) ?></td>
-                                            <td>
-                                                <a href="#" class="updateUser" data-user-id="<?= $user['id'] ?>" 
-                                                data-fname="<?= htmlspecialchars($user['fname']) ?>" 
-                                                data-lname="<?= htmlspecialchars($user['lname']) ?>"
-                                                data-email="<?= htmlspecialchars($user['email']) ?>"><i class="fa fa-pencil"></i>Edit</a> <br>
-                                                <a href="#" class="deleteUser" data-user-id="<?= $user['id'] ?>" 
-                                                data-fname="<?= htmlspecialchars($user['fname']) ?>" 
-                                                data-lname="<?= htmlspecialchars($user['lname']) ?>">
+                                        <td><?= ++$index ?></td>
+                                        <td class="fname"><?= htmlspecialchars($user['fname']) ?></td>
+                                        <td class="lname"><?= htmlspecialchars($user['lname']) ?></td>
+                                        <td class="email"><?= htmlspecialchars($user['email']) ?></td>
+                                        <td><?= date('M d, Y @ h:i:s: A', strtotime($user['created_at'])) ?></td>
+                                        <td><?= date('M d, Y @ h:i:s: A', strtotime($user['updated_at'])) ?></td>
+                                        <td>
+                                            <a href="#" class="updateUser" data-user-id="<?= $user['id'] ?>" data-fname="<?= htmlspecialchars($user['fname']) ?>" data-lname="<?= htmlspecialchars($user['lname']) ?>" data-email="<?= htmlspecialchars($user['email']) ?>"><i class="fa fa-pencil"></i>Edit</a> <br>
+                                            <a href="#" class="deleteUser" data-user-id="<?= $user['id'] ?>" data-fname="<?= htmlspecialchars($user['fname']) ?>" data-lname="<?= htmlspecialchars($user['lname']) ?>">
                                                 <i class="fa fa-trash"></i>Delete</a>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
-                            <p class="userCount"><?= count($users) ?> Users</p>
-                        </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                        <p class="userCount"><?= count($users) ?> Users</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 <script src="javascript/script.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -146,7 +131,9 @@ $users = include('database/showUsers.php');
                     if (window.confirm('Are you sure you want to delete ' + fullName + '?')) {
                         $.ajax({
                             method: 'POST',
-                            data: { user_id: userId },
+                            data: {
+                                user_id: userId
+                            },
                             url: 'database/deleteUser.php',
                             dataType: 'json',
                             success: function(data) {
@@ -182,5 +169,6 @@ $users = include('database/showUsers.php');
 
     new script();
 </script>
+
 </body>
 </html>

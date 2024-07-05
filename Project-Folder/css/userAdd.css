@@ -1,43 +1,42 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-}
 /* First Column Left */
-form::after{
+form::after {
     content: '';
     clear: both;
     display: block;
 }
 
-form.AddForm{
-    width:90%;
+form.AddForm {
+    width: 90%;
     margin: 0 auto;
-    padding:10px;
-    border:1px solid #cecfd0;
+    padding: 10px;
+    border: 1px solid #cecfd0;
     border-radius: 10px;
     background: rgba(14, 31, 14, 0.954);
 }
 
-input.formInput{
+input.formInput {
     width: 100%;
     height: 30px;
     border: 1px solid #4cad4f;
     border-radius: 5px;
 }
-form label{
+
+form label {
     color: white;
     font-weight: bold;
     text-transform: bold;
 }
-div.addFormContainer{
+
+div.addFormContainer {
     margin-bottom: 15px;
     font-size: 18px;
 }
 
-div#userAddContainer{
+div#userAddContainer {
     padding-top: 100px;
 }
 
-button.addBtn{
+button.addBtn {
     font-family: Arial, Helvetica, sans-serif;
     text-transform: bold;
     background: #395a36;
@@ -48,40 +47,43 @@ button.addBtn{
     float: right;
 }
 
-p.responseMessage{
+p.responseMessage {
     font-size: 18px;
     text-align: center;
     margin-top: 33px;
     padding: 20px;
 }
 
-p.responseMessage_success{
-    background: #4cad4f;}
-p.responseMessage_error{
+p.responseMessage_success {
+    background: #4cad4f;
+}
+
+p.responseMessage_error {
     background: #d05555;
 }
 
 /* Second-Column Right */
 
 
-div.row{
-    display:flex;
+div.row {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
 }
 
-div.column-5{
+div.column-5 {
     width: 35.67%;
 }
-div.column-7{
+
+div.column-7 {
     width: 63.33%;
     padding-left: 10px;
 }
 
-h2.profiles{
+h2.profiles {
     font-size: 21px;
-    color:  rgba(0, 0, 0, 0.692);
+    color: rgba(0, 0, 0, 0.692);
     border-bottom: 2px solid rgba(0, 0, 0, 0.692);
     padding-bottom: 10px;
     padding: 8px;
@@ -89,25 +91,31 @@ h2.profiles{
     margin-bottom: 15px;
 }
 
-thead, table, th{
+thead,
+table,
+th {
     font-size: 15px;
     text-align: left;
     background: #f4f6f9;
 }
 
-table, td, th {
+table,
+td,
+th {
     border: 1px solid #cacaca;
     border-collapse: collapse;
 }
-table{
+
+table {
     width: 100%;
 }
-td{
+
+td {
     font-size: 13px;
     padding: 2px;
 }
 
-p.userCount{
+p.userCount {
     color: green;
     font-size: 15px;
 

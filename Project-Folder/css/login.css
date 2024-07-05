@@ -1,85 +1,70 @@
-body {
-    background: url('../images/PalmGrassLogin.webp') no-repeat center center fixed;
+.login-page {
+    background: url('../images/PalmGrassLogin.jpg') no-repeat center center fixed;
     background-size: cover;
-    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    position: relative;
 }
 
-div.loginHeader {
-    text-align: center;
-    margin-bottom: 60px;
+.logo {
+    max-width: 280px;
+    filter: brightness(90%) contrast(150%) saturate(120%);
 }
 
-div.loginHeader h1 {
-    font-size: 100px;
-    color: rgb(2, 56, 2);
-    padding: 0px;
-    margin: 0px;
+.divider {
+    border-top: 2px solid #315500;
+    opacity: .25;
+    margin: 0;
+    margin-bottom: 40px;
 }
 
-div.loginHeader p {
-    color: #1c351c;
-    font-size: 70px;
-    margin: 0px;
-    text-transform: uppercase;
-    display: inline-block;
-}
-
-div.loginHeader p:after {
-    content: '';
-    display: block;
-    height: 5px;
-    background-color: #a9a9a9;
-    margin: 0 auto;
-}
-
-div.loginBody form {
-    margin: 0 auto;
-    width: 450px;
-    background: rgba(0, 0, 0, .5);
-    padding: 50px;
-    border: 2px solid #fff;
-    border-radius: 8px;
-}
-
-div.loginInputsContainer {
-    margin-top: 20px;
-}
-
-div.loginInputsContainer label {
-    display: block;
-    text-transform: uppercase;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-}
-
-div.loginInputsContainer input {
-    height: 30px;
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    border: 2px solid #003709;
-    font-size: 20px;
-    padding: 5px;
-    text-align: center;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(206, 240, 253, 0.3) 0%, rgba(12, 19, 78, 0.5) 100%);
 }
 
-div.loginButtonContainer {
-    margin-top: 40px;
-    text-align: center;
-}
-
-div.loginButtonContainer button {
-    font-size: 20px;
-    padding: 10px 40px;
-    background: #3f854b;
+.login-card {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
     border: none;
-    color: #fff;
+    border-radius: 15px;
+    padding: 0 30px 30px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.135);
 }
 
+.form-control {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease;
+}
 
-div#errorMessage{
-    background: #fff;
-    text-align: center;
-    color:red;
-    font-size: 20px;
-    padding: 11px;
+.form-control:focus {
+    background-color: #fff;
+    box-shadow: 0 0 0 0.2rem rgba(70, 117, 78, 0.25);
+}
+
+.btn-primary {
+    background-color: #406a04;
+    border-color: #406a04;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #284401;
+    border-color: #284401;
+}
+
+label.login {
+    font-weight: 500;
+    font-size: 1rem;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .login-card {
+        margin: 15px;
+    }
 }
