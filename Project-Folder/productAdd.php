@@ -1,12 +1,11 @@
 <?php
-// session start
 session_start();
 if (!isset($_SESSION['user'])) header('location: login.php');
-$_SESSION['table'] = 'users';
+$_SESSION['table'] = 'products';
 $user = $_SESSION['user'];
-$users = include('database/showUsers.php');
+$products = include('database/showProd.php');
 
-$pageTitle = 'User Add';
+$pageTitle = 'Add Product';
 include('partials/header.php');
 ?>
 
@@ -19,26 +18,23 @@ include('partials/header.php');
         <div class="dashboard_content">
             <div class="row">
                 <div class="column column-5">
-                    <h2 class="profiles"><i class="fa fa-plus"></i> Add / Edit Profile</h2>
+                    <h2 class="profiles"><i class="fa fa-plus"></i> Add / Edit Product Information</h2>
                     <div class="dashboard_content_main">
-                        <div id="userAddContainer">
-                            <form action="database/user_DB_add.php" method="POST" class="AddForm">
-                                <input type="hidden" name="id" id="user_id">
+                        <div id="productAddContainer">
+                            <form action="database/product_DB_add.php" method="POST" class="AddForm" enctype="multipart/form-data">
+                                <input type="hidden" name="id" id="product_id">
+                                <input type="hidden" name="created_by" value="<?= $_SESSION['user']['id'] ?>">
                                 <div class="addFormContainer">
-                                    <label for="fname" class="formInput">First Name</label>
-                                    <input type="text" class="formInput" name="fname" id="fname">
+                                    <label for="prodName" class="formInput">Product Name</label>
+                                    <input type="text" class="formInput" name="prodName" id="prodName" placeholder="Enter Product Name..">
                                 </div>
                                 <div class="addFormContainer">
-                                    <label for="lname" class="formInput">Last Name</label>
-                                    <input type="text" class="formInput" name="lname" id="lname">
+                                    <label for="description" class="formInput">Description</label><br>
+                                    <textarea class="productTextArea" id="description" name="description" placeholder="Enter Product Description.."></textarea>
                                 </div>
                                 <div class="addFormContainer">
-                                    <label for="email">Email</label>
-                                    <input type="text" class="formInput" name="email" id="email">
-                                </div>
-                                <div class="addFormContainer">
-                                    <label for="password">Password</label>
-                                    <input type="text" class="formInput" name="password" id="password">
+                                    <label for="img" class="formInput">Product Image</label>
+                                    <input type="file" class="formInput" name="img" id="img" accept="image/*">
                                 </div>
                                 <button type="submit" class="addBtn"><i class="fa fa-send"></i> Submit Form</button>
                             </form>
@@ -59,15 +55,14 @@ include('partials/header.php');
                 </div>
 
                 <div class="column column-7">
-                    <h2 class="profiles"><i class="fa fa-list"></i> List of Users</h2>
-                    <div class="users">
+                    <h2 class="profiles"><i class="fa fa-list"></i> List of Products</h2>
+                    <div class="products">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Email</th>
+                                    <th>Image</th>
+                                    <th>Product Name</th>
+                                    <th>Description</th>
                                     <th>Created At</th>
                                     <th>Updated At</th>
                                     <th>Action</th>
@@ -75,24 +70,23 @@ include('partials/header.php');
                             </thead>
                             <tbody>
                                 <?php
-                                foreach ($users as $user) { ?>
+                                foreach ($products as $product) { ?>
                                     <tr>
-                                        <td><?= htmlspecialchars($user['id']) ?></td>
-                                        <td class="fname"><?= htmlspecialchars($user['fname']) ?></td>
-                                        <td class="lname"><?= htmlspecialchars($user['lname']) ?></td>
-                                        <td class="email"><?= htmlspecialchars($user['email']) ?></td>
-                                        <td><?= date('M d, Y @ h:i:s: A', strtotime($user['created_at'])) ?></td>
-                                        <td><?= date('M d, Y @ h:i:s: A', strtotime($user['updated_at'])) ?></td>
+                                        <td><img src="productImages/<?= htmlspecialchars($product['img']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>" width="50" height="50"></td>
+                                        <td class="prodName"><?= htmlspecialchars($product['product_name']) ?></td>
+                                        <td class="description"><?= htmlspecialchars($product['description']) ?></td>
+                                        <td><?= date('M d, Y @ h:i:s: A', strtotime($product['created_at'])) ?></td>
+                                        <td><?= date('M d, Y @ h:i:s: A', strtotime($product['updated_at'])) ?></td>
                                         <td>
-                                            <a href="#" class="updateUser" data-user-id="<?= $user['id'] ?>" data-fname="<?= htmlspecialchars($user['fname']) ?>" data-lname="<?= htmlspecialchars($user['lname']) ?>" data-email="<?= htmlspecialchars($user['email']) ?>"><i class="fa fa-pencil"></i>Edit</a> <br>
-                                            <a href="#" class="deleteUser" data-user-id="<?= $user['id'] ?>" data-fname="<?= htmlspecialchars($user['fname']) ?>" data-lname="<?= htmlspecialchars($user['lname']) ?>">
+                                            <a href="#" class="updateProduct" data-product-id="<?= $product['id'] ?>" data-prodname="<?= htmlspecialchars($product['product_name']) ?>" data-description="<?= htmlspecialchars($product['description']) ?>" data-img="<?= htmlspecialchars($product['img']) ?>"><i class="fa fa-pencil"></i>Edit</a> <br>
+                                            <a href="#" class="deleteProduct" data-product-id="<?= $product['id'] ?>" data-prodname="<?= htmlspecialchars($product['product_name']) ?>">
                                                 <i class="fa fa-trash"></i>Delete</a>
                                         </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
-                        <p class="userCount"><?= count($users) ?> Users</p>
+                        <p class="productCount"><?= count($products) ?> Products</p>
                     </div>
                 </div>
             </div>
@@ -120,20 +114,18 @@ include('partials/header.php');
                 let targetElement = e.target;
                 let classList = targetElement.classList;
 
-                if (classList.contains('deleteUser')) {
+                if (classList.contains('deleteProduct')) {
                     e.preventDefault();
-                    let userId = targetElement.dataset.userId;
-                    let fname = targetElement.dataset.fname;
-                    let lname = targetElement.dataset.lname;
-                    let fullName = fname + ' ' + lname;
+                    let productId = targetElement.dataset.productId;
+                    let prodName = targetElement.dataset.prodname;
 
-                    if (window.confirm('Are you sure you want to delete ' + fullName + '?')) {
+                    if (window.confirm('Are you sure you want to delete ' + prodName + '?')) {
                         $.ajax({
                             method: 'POST',
                             data: {
-                                user_id: userId
+                                product_id: productId
                             },
-                            url: 'database/deleteUser.php',
+                            url: 'database/deleteProduct.php',
                             dataType: 'json',
                             success: function(data) {
                                 alert(data.message);
@@ -147,18 +139,17 @@ include('partials/header.php');
                     }
                 }
 
-                if (classList.contains('updateUser')) {
+                if (classList.contains('updateProduct')) {
                     e.preventDefault();
-                    let userId = targetElement.dataset.userId;
-                    let fname = targetElement.dataset.fname;
-                    let lname = targetElement.dataset.lname;
-                    let email = targetElement.dataset.email;
+                    let productId = targetElement.dataset.productId;
+                    let prodName = targetElement.dataset.prodname;
+                    let description = targetElement.dataset.description;
+                    let img = targetElement.dataset.img;
 
-                    document.getElementById('user_id').value = userId;
-                    document.getElementById('fname').value = fname;
-                    document.getElementById('lname').value = lname;
-                    document.getElementById('email').value = email;
-                    document.getElementById('password').value = ''; // Clear password field
+                    document.getElementById('product_id').value = productId;
+                    document.getElementById('prodName').value = prodName;
+                    document.getElementById('description').value = description;
+                    document.getElementById('img').value = img;
                 }
             });
         };
