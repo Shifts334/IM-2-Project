@@ -1,4 +1,5 @@
 <?php
+// session start
 session_start();
 if (!isset($_SESSION['user'])) header('location: login.php');
 $_SESSION['table'] = 'products';
@@ -21,20 +22,18 @@ include('partials/header.php');
                     <h2 class="profiles"><i class="fa fa-plus"></i> Add / Edit Product Information</h2>
                     <div class="dashboard_content_main">
                         <div id="productAddContainer">
-                            <form action="database/product_DB_add.php" method="POST" class="AddForm" enctype="multipart/form-data">
-                                <input type="hidden" name="id" id="product_id">
-                                <input type="hidden" name="created_by" value="<?= $_SESSION['user']['id'] ?>">
+                            <form action="database/product_DB_add.php" method="POST" enctype="multipart/form-data" class="AddForm">
                                 <div class="addFormContainer">
                                     <label for="prodName" class="formInput">Product Name</label>
-                                    <input type="text" class="formInput" name="prodName" id="prodName" placeholder="Enter Product Name..">
+                                    <input type="text" class="formInput" name="prodName" id="prodName" placeholder="Enter Product Name.." required>
                                 </div>
                                 <div class="addFormContainer">
                                     <label for="description" class="formInput">Description</label><br>
-                                    <textarea class="productTextArea" id="description" name="description" placeholder="Enter Product Description.."></textarea>
+                                    <textarea class="productTextArea" id="description" name="description" placeholder="Enter Product Description.." required></textarea>
                                 </div>
                                 <div class="addFormContainer">
-                                    <label for="img" class="formInput">Product Image</label>
-                                    <input type="file" class="formInput" name="img" id="img" accept="image/*">
+                                    <label for="img" class="formInput">Product Image</label><br>
+                                    <input type="file" class="formInput" name="img" id="img" accept="image/*" required>
                                 </div>
                                 <button type="submit" class="addBtn"><i class="fa fa-send"></i> Submit Form</button>
                             </form>
@@ -60,9 +59,10 @@ include('partials/header.php');
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Image</th>
+                                    <th>ID</th>
                                     <th>Product Name</th>
                                     <th>Description</th>
+                                    <th>Image</th>
                                     <th>Created At</th>
                                     <th>Updated At</th>
                                     <th>Action</th>
@@ -72,15 +72,15 @@ include('partials/header.php');
                                 <?php
                                 foreach ($products as $product) { ?>
                                     <tr>
-                                        <td><img src="productImages/<?= htmlspecialchars($product['img']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>" width="50" height="50"></td>
+                                        <td><?= htmlspecialchars($product['id']) ?></td>
                                         <td class="prodName"><?= htmlspecialchars($product['product_name']) ?></td>
+                                        <td><img src="productImages/<?= htmlspecialchars($product['img']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>" width="50"></td>
                                         <td class="description"><?= htmlspecialchars($product['description']) ?></td>
-                                        <td><?= date('M d, Y @ h:i:s: A', strtotime($product['created_at'])) ?></td>
-                                        <td><?= date('M d, Y @ h:i:s: A', strtotime($product['updated_at'])) ?></td>
+                                        <td><?= date('M d, Y @ h:i:s A', strtotime($product['created_at'])) ?></td>
+                                        <td><?= date('M d, Y @ h:i:s A', strtotime($product['updated_at'])) ?></td>
                                         <td>
-                                            <a href="#" class="updateProduct" data-product-id="<?= $product['id'] ?>" data-prodname="<?= htmlspecialchars($product['product_name']) ?>" data-description="<?= htmlspecialchars($product['description']) ?>" data-img="<?= htmlspecialchars($product['img']) ?>"><i class="fa fa-pencil"></i>Edit</a> <br>
-                                            <a href="#" class="deleteProduct" data-product-id="<?= $product['id'] ?>" data-prodname="<?= htmlspecialchars($product['product_name']) ?>">
-                                                <i class="fa fa-trash"></i>Delete</a>
+                                            <a href="#" class="updateProduct" data-product-id="<?= $product['id'] ?>" data-prodName="<?= htmlspecialchars($product['product_name']) ?>" data-description="<?= htmlspecialchars($product['description']) ?>" data-img="<?= htmlspecialchars($product['img']) ?>"><i class="fa fa-pencil"></i>Edit</a> <br>
+                                            <a href="#" class="deleteProduct" data-product-id="<?= $product['id'] ?>" data-prodName="<?= htmlspecialchars($product['product_name']) ?>"><i class="fa fa-trash"></i>Delete</a>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -117,7 +117,7 @@ include('partials/header.php');
                 if (classList.contains('deleteProduct')) {
                     e.preventDefault();
                     let productId = targetElement.dataset.productId;
-                    let prodName = targetElement.dataset.prodname;
+                    let prodName = targetElement.dataset.prodName;
 
                     if (window.confirm('Are you sure you want to delete ' + prodName + '?')) {
                         $.ajax({
@@ -125,7 +125,7 @@ include('partials/header.php');
                             data: {
                                 product_id: productId
                             },
-                            url: 'database/deleteProduct.php',
+                            url: 'database/deleteProd.php',
                             dataType: 'json',
                             success: function(data) {
                                 alert(data.message);
@@ -142,11 +142,11 @@ include('partials/header.php');
                 if (classList.contains('updateProduct')) {
                     e.preventDefault();
                     let productId = targetElement.dataset.productId;
-                    let prodName = targetElement.dataset.prodname;
+                    let prodName = targetElement.dataset.prodName;
                     let description = targetElement.dataset.description;
                     let img = targetElement.dataset.img;
 
-                    document.getElementById('product_id').value = productId;
+                    document.getElementById('user_id').value = productId;
                     document.getElementById('prodName').value = prodName;
                     document.getElementById('description').value = description;
                     document.getElementById('img').value = img;
