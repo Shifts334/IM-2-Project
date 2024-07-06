@@ -1,7 +1,7 @@
 <?php
 //session start
 session_start();
-if (!isset($_SESSION['user'])) header('location: login.php');
+if (!isset($_SESSION['user'])) header('location: index.php');
 $user = $_SESSION['user'];
 
 $pageTitle = 'Dashboard';

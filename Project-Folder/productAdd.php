@@ -105,60 +105,59 @@ include('partials/header.php');
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function script() {
-        this.initialize = function() {
-            this.registerEvents();
-        };
+    this.initialize = function() {
+        this.registerEvents();
+    };
 
-        this.registerEvents = function() {
-            document.addEventListener('click', function(e) {
-                let targetElement = e.target;
-                let classList = targetElement.classList;
+    this.registerEvents = function() {
+        document.addEventListener('click', function(e) {
+            let targetElement = e.target;
+            let classList = targetElement.classList;
 
-                if (classList.contains('deleteProduct')) {
-                    e.preventDefault();
-                    let productId = targetElement.dataset.productId;
-                    let prodName = targetElement.dataset.prodName;
+            if (classList.contains('deleteProduct')) {
+                e.preventDefault();
+                let productId = targetElement.dataset.productId;
+                let prodName = targetElement.dataset.prodName;
 
-                    if (window.confirm('Are you sure you want to delete ' + prodName + '?')) {
-                        $.ajax({
-                            method: 'POST',
-                            data: {
-                                product_id: productId
-                            },
-                            url: 'database/deleteProd.php',
-                            dataType: 'json',
-                            success: function(data) {
-                                alert(data.message);
-                                if (data.success) {
-                                    location.reload();
-                                }
+                if (window.confirm('Are you sure you want to delete ' + prodName + '?')) {
+                    $.ajax({
+                        method: 'POST',
+                        data: {
+                            product_id: productId
+                        },
+                        url: 'database/deleteProd.php',
+                        dataType: 'json',
+                        success: function(data) {
+                            alert(data.message);
+                            if (data.success) {
+                                location.reload();
                             }
-                        });
-                    } else {
-                        console.log('Will not delete');
-                    }
+                        }
+                    });
+                } else {
+                    console.log('Will not delete');
                 }
+            }
 
-                if (classList.contains('updateProduct')) {
-                    e.preventDefault();
-                    let productId = targetElement.dataset.productId;
-                    let prodName = targetElement.dataset.prodName;
-                    let description = targetElement.dataset.description;
-                    let img = targetElement.dataset.img;
+            if (classList.contains('updateProduct')) {
+                e.preventDefault();
+                let productId = targetElement.dataset.productId;
+                let prodName = targetElement.dataset.prodName;
+                let description = targetElement.dataset.description;
+                let img = targetElement.dataset.img;
 
-                    document.getElementById('user_id').value = productId;
-                    document.getElementById('prodName').value = prodName;
-                    document.getElementById('description').value = description;
-                    document.getElementById('img').value = img;
-                }
-            });
-        };
+                document.getElementById('user_id').value = productId;
+                document.getElementById('prodName').value = prodName;
+                document.getElementById('description').value = description;
+                document.getElementById('img').value = img;
+            }
+        });
+    };
 
-        this.initialize();
-    }
+    this.initialize();
+}
 
-    new script();
+new script();
 </script>
-
 </body>
 </html>

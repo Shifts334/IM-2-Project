@@ -52,7 +52,7 @@ include('partials/header.php');
                         </div>
                     <?php } ?>
 
-                    <form action="login.php" method="POST">
+                    <form action="index.php" method="POST">
                         <div class="mb-4">
                             <label for="username" class="form-label login">Email</label>
                             <input type="email" class="form-control" id="username" name="username" placeholder="Enter your email" required>

@@ -111,62 +111,62 @@ include('partials/header.php');
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function script() {
-        this.initialize = function() {
-            this.registerEvents();
-        };
+    this.initialize = function() {
+        this.registerEvents();
+    };
 
-        this.registerEvents = function() {
-            document.addEventListener('click', function(e) {
-                let targetElement = e.target;
-                let classList = targetElement.classList;
+    this.registerEvents = function() {
+        document.addEventListener('click', function(e) {
+            let targetElement = e.target;
+            let classList = targetElement.classList;
 
-                if (classList.contains('deleteUser')) {
-                    e.preventDefault();
-                    let userId = targetElement.dataset.userId;
-                    let fname = targetElement.dataset.fname;
-                    let lname = targetElement.dataset.lname;
-                    let fullName = fname + ' ' + lname;
+            if (classList.contains('deleteUser')) {
+                e.preventDefault();
+                let userId = targetElement.dataset.userId;
+                let fname = targetElement.dataset.fname;
+                let lname = targetElement.dataset.lname;
+                let fullName = fname + ' ' + lname;
 
-                    if (window.confirm('Are you sure you want to delete ' + fullName + '?')) {
-                        $.ajax({
-                            method: 'POST',
-                            data: {
-                                user_id: userId
-                            },
-                            url: 'database/deleteUser.php',
-                            dataType: 'json',
-                            success: function(data) {
-                                alert(data.message);
-                                if (data.success) {
-                                    location.reload();
-                                }
+                if (window.confirm('Are you sure you want to delete ' + fullName + '?')) {
+                    $.ajax({
+                        method: 'POST',
+                        data: {
+                            user_id: userId
+                        },
+                        url: 'database/deleteUser.php',
+                        dataType: 'json',
+                        success: function(data) {
+                            alert(data.message);
+                            if (data.success) {
+                                location.reload();
                             }
-                        });
-                    } else {
-                        console.log('Will not delete');
-                    }
+                        }
+                    });
+                } else {
+                    console.log('Will not delete');
                 }
+            }
 
-                if (classList.contains('updateUser')) {
-                    e.preventDefault();
-                    let userId = targetElement.dataset.userId;
-                    let fname = targetElement.dataset.fname;
-                    let lname = targetElement.dataset.lname;
-                    let email = targetElement.dataset.email;
+            if (classList.contains('updateUser')) {
+                e.preventDefault();
+                let userId = targetElement.dataset.userId;
+                let fname = targetElement.dataset.fname;
+                let lname = targetElement.dataset.lname;
+                let email = targetElement.dataset.email;
 
-                    document.getElementById('user_id').value = userId;
-                    document.getElementById('fname').value = fname;
-                    document.getElementById('lname').value = lname;
-                    document.getElementById('email').value = email;
-                    document.getElementById('password').value = ''; // Clear password field
-                }
-            });
-        };
+                document.getElementById('user_id').value = userId;
+                document.getElementById('fname').value = fname;
+                document.getElementById('lname').value = lname;
+                document.getElementById('email').value = email;
+                document.getElementById('password').value = ''; // Clear password field
+            }
+        });
+    };
 
-        this.initialize();
-    }
+    this.initialize();
+}
 
-    new script();
+new script();
 </script>
 
 </body>
