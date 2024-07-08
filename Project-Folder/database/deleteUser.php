@@ -2,18 +2,23 @@
 session_start();
 include('connect.php');
 
-$data = $_POST;
-$user_id = (int) $data['user_id'];
+$data = json_decode(file_get_contents('php://input'), true);
+$user_id = isset($data['user_id']) ? (int) $data['user_id'] : 0;
 
 try {
-    $command = "DELETE FROM users WHERE id={$user_id}";
-    $conn->exec($command);
+    if ($user_id > 0) {
+        $stmt = $conn->prepare("DELETE FROM users WHERE id = :id");
+        $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
 
-    $response = [
-        'success' => true,
-        'message' => 'User successfully deleted from the system.'
-    ];
-} catch (PDOException $e) {
+        $response = [
+            'success' => true,
+            'message' => 'User successfully deleted from the system.'
+        ];
+    } else {
+        throw new Exception('Invalid user ID.');
+    }
+} catch (Exception $e) {
     $response = [
         'success' => false,
         'message' => $e->getMessage()
@@ -21,4 +26,3 @@ try {
 }
 
 echo json_encode($response);
-?>
