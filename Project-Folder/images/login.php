@@ -55,7 +55,7 @@ include('partials/header.php');
                     <form action="login.php" method="POST">
                         <div class="mb-4">
                             <label for="username" class="form-label login">Email</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your email" required>
+                            <input type="email" class="form-control" id="username" name="username" placeholder="Enter your email" required>
                         </div>
                         <div class="mb-4">
                             <label for="password" class="form-label login">Password</label>

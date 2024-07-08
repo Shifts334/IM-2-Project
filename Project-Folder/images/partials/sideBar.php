@@ -11,16 +11,13 @@
             <li class="menuActive">
                 <a href="dashboard.php"><i class="fa fa-dashboard"></i> <span class="menuText"> Dashboard</span></a>
             </li>
-            <li>
-                <a href="userAdd.php"><i class="fa fa-user"></i> <span class="menuText"> User List</span></a>
+            <li class="menuActive">
+                <a href="userAdd.php"><i class="fa fa-user"></i> <span class="menuText"> Profile List</span></a>
             </li>
-            <li>
-                <a href="productAdd.php"><i class="fa fa-server"></i> <span class="menuText"> Inventory/Product List</span></a>
+            <li class="menuActive">
+                <a href="productAdd.php"><i class="fa fa-server"></i> <span class="menuText"> Inventory</span></a>
             </li>
-            <li>
-                <a href="supplierAdd.php"><i class="fa fa-book"></i> <span class="menuText"> Suppliers</span></a>
-            </li>
-            <li>
+            <li class="menuActive">
                 <a href=""><i class="fa fa-book"></i> <span class="menuText"> Purchase History</span></a>
             </li>
             

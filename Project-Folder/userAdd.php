@@ -16,10 +16,10 @@ include('partials/header.php');
     <div class="dashboard_content_container" id="dashboard_content_container">
         <?php include('partials/topNavBar.php') ?>
 
-        <div class="dashboard_content d-flex justify-content-center p-0">
+        <div class="dashboard_content d-flex justify-content-center">
             <div class="container m-0 p-0 mw-100">
                 <div class="card h-100 border-0">
-                    <div class="card-header p-3 bg-white d-flex justify-content-between ">
+                    <div class="card-header p-3 bg-white d-flex justify-content-between">
                         <h2 class="card-title m-2"><i class="fa fa-list"></i> List of Users</h2>
                         <a href="userAddForm.php" class="btn btn-primary m-2">
                             Add New User
