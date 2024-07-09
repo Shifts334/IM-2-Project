@@ -4,7 +4,6 @@ session_start();
 if (!isset($_SESSION['user'])) header('location: login.php');
 $_SESSION['table'] = 'users';
 $user = $_SESSION['user'];
-$users = include('database/showUsers.php');
 
 $pageTitle = 'Add User';
 include('partials/header.php');
@@ -24,7 +23,7 @@ include('partials/header.php');
                     </div>
                     <div class="card-body p-5">
                         <form action="database/user_DB_add.php" method="POST" class="AddForm">
-                            <input type="hidden" name="id" id="user_id">
+                            <input type="hidden" name="userID" id="user_id">
                             <div class="addFormContainer mb-3">
                                 <label for="fname" class="form-label">First Name</label>
                                 <input type="text" class="form-control" name="fname" id="fname">
@@ -34,12 +33,24 @@ include('partials/header.php');
                                 <input type="text" class="form-control" name="lname" id="lname">
                             </div>
                             <div class="addFormContainer mb-3">
+                                <label for="department" class="form-label">Department</label>
+                                <input type="text" class="form-control" name="department" id="department">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="permissions" class="form-label">Permissions</label>
+                                <input type="text" class="form-control" name="permissions" id="permissions">
+                            </div>
+                            <div class="addFormContainer mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" name="email" id="email">
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" name="password" id="password">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="workStatus" class="form-label">Work Status</label>
+                                <input type="text" class="form-control" name="workStatus" id="workStatus">
                             </div>
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>

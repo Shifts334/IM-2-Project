@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) header('location: login.php');
-$_SESSION['table'] = 'products';
+$_SESSION['table'] = 'item'; // Use the new table name
 $user = $_SESSION['user'];
 
 $pageTitle = 'Add Product';
@@ -22,14 +22,30 @@ include('partials/header.php');
                     </div>
                     <div class="card-body p-5">
                         <form action="database/product_DB_add.php" method="POST" class="AddForm">
-                            <input type="hidden" name="id" id="product_id">
+                            <input type="hidden" name="itemID" id="item_id">
                             <div class="addFormContainer mb-3">
-                                <label for="prodName" class="form-label">Product Name</label>
-                                <input type="text" class="form-control" name="prodName" id="prodName">
+                                <label for="itemName" class="form-label">Item Name</label>
+                                <input type="text" class="form-control" name="itemName" id="itemName">
                             </div>
                             <div class="addFormContainer mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description"></textarea>
+                                <label for="unitOfMeasure" class="form-label">Unit of Measure</label>
+                                <input type="text" class="form-control" name="unitOfMeasure" id="unitOfMeasure">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="itemType" class="form-label">Item Type</label>
+                                <input type="text" class="form-control" name="itemType" id="itemType">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" name="quantity" id="quantity">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="minStockLevel" class="form-label">Min Stock Level</label>
+                                <input type="number" class="form-control" name="minStockLevel" id="minStockLevel">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="itemStatus" class="form-label">Item Status</label>
+                                <input type="number" class="form-control" name="itemStatus" id="itemStatus">
                             </div>
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>
@@ -43,4 +59,24 @@ include('partials/header.php');
     </div>
 </div>
 
-<?php include('../partials/footer.php'); ?>
+<script>
+    function script() {
+        this.initialize = function() {
+            this.registerEvents();
+        };
+
+        this.registerEvents = function() {
+            document.addEventListener('click', function(e) {
+                let targetElement = e.target;
+                let classList = targetElement.classList;
+
+            });
+        };
+
+        this.initialize();
+    }
+
+    new script();
+</script>
+
+<?php include('partials/footer.php'); ?>    

@@ -1,17 +1,17 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) header('location: login.php');
-$_SESSION['table'] = 'products';
+$_SESSION['table'] = 'item'; // Use the new table name
 $user = $_SESSION['user'];
 
 $pageTitle = 'Update Product';
 include('partials/header.php');
 
 $productData = [];
-if (isset($_GET['id'])) {
+if (isset($_GET['itemID'])) {
     include('database/connect.php');
-    $stmt = $conn->prepare("SELECT * FROM products WHERE id = :id");
-    $stmt->execute(['id' => $_GET['id']]);
+    $stmt = $conn->prepare("SELECT * FROM item WHERE itemID = :itemID");
+    $stmt->execute(['itemID' => $_GET['itemID']]);
     $productData = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
@@ -30,14 +30,30 @@ if (isset($_GET['id'])) {
                     </div>
                     <div class="card-body p-5">
                         <form action="database/product_DB_add.php" method="POST" class="AddForm">
-                            <input type="hidden" name="id" id="product_id" value="<?= $productData['id'] ?? '' ?>">
+                            <input type="hidden" name="itemID" id="item_id" value="<?= $productData['itemID'] ?? '' ?>">
                             <div class="addFormContainer mb-3">
-                                <label for="prodName" class="form-label">Product Name</label>
-                                <input type="text" class="form-control" name="prodName" id="prodName" value="<?= $productData['product_name'] ?? '' ?>">
+                                <label for="itemName" class="form-label">Item Name</label>
+                                <input type="text" class="form-control" name="itemName" id="itemName" value="<?= $productData['itemName'] ?? '' ?>">
                             </div>
                             <div class="addFormContainer mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description"><?= $productData['description'] ?? '' ?></textarea>
+                                <label for="unitOfMeasure" class="form-label">Unit of Measure</label>
+                                <input type="text" class="form-control" name="unitOfMeasure" id="unitOfMeasure" value="<?= $productData['unitOfMeasure'] ?? '' ?>">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="itemType" class="form-label">Item Type</label>
+                                <input type="text" class="form-control" name="itemType" id="itemType" value="<?= $productData['itemType'] ?? '' ?>">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" name="quantity" id="quantity" value="<?= $productData['quantity'] ?? '' ?>">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="minStockLevel" class="form-label">Min Stock Level</label>
+                                <input type="number" class="form-control" name="minStockLevel" id="minStockLevel" value="<?= $productData['minStockLevel'] ?? '' ?>">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="itemStatus" class="form-label">Item Status</label>
+                                <input type="number" class="form-control" name="itemStatus" id="itemStatus" value="<?= $productData['itemStatus'] ?? '' ?>">
                             </div>
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>

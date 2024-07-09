@@ -1,10 +1,9 @@
 <?php
-    include('connect.php');
+include('connect.php');
 
+$stmt = $conn->prepare("SELECT * FROM users ORDER BY userID ASC");
+$stmt->execute();
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-    $stmt = $conn->prepare("SELECT * FROM users ORDER BY id ASC");
-    $stmt->execute();
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-    return $stmt->fetchAll();
+return $stmt->fetchAll();
 ?>

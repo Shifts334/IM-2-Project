@@ -1,17 +1,17 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) header('location: login.php');
-$_SESSION['table'] = 'suppliers';
+$_SESSION['table'] = 'supplier';
 $user = $_SESSION['user'];
 
 $pageTitle = 'Update Supplier';
 include('partials/header.php');
 
 $supplierData = [];
-if (isset($_GET['id'])) {
+if (isset($_GET['supplierID'])) {
     include('database/connect.php');
-    $stmt = $conn->prepare("SELECT * FROM suppliers WHERE id = :id");
-    $stmt->execute(['id' => $_GET['id']]);
+    $stmt = $conn->prepare("SELECT * FROM supplier WHERE supplierID = :supplierID");
+    $stmt->execute(['supplierID' => $_GET['supplierID']]);
     $supplierData = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
@@ -30,18 +30,22 @@ if (isset($_GET['id'])) {
                     </div>
                     <div class="card-body p-5">
                         <form action="database/supplier_DB_add.php" method="POST" class="AddForm">
-                            <input type="hidden" name="id" id="supplier_id" value="<?= $supplierData['id'] ?? '' ?>">
+                            <input type="hidden" name="supplierID" id="supplierID" value="<?= $supplierData['supplierID'] ?? '' ?>">
                             <div class="addFormContainer mb-3">
-                                <label for="supplier_name" class="form-label">Supplier Name</label>
-                                <input type="text" class="form-control" name="supplier_name" id="supplier_name" value="<?= $supplierData['supplier_name'] ?? '' ?>">
+                                <label for="companyName" class="form-label">Company Name</label>
+                                <input type="text" class="form-control" name="companyName" id="companyName" value="<?= $supplierData['companyName'] ?? '' ?>">
                             </div>
                             <div class="addFormContainer mb-3">
-                                <label for="supplier_location" class="form-label">Supplier Location</label>
-                                <input type="text" class="form-control" name="supplier_location" id="supplier_location" value="<?= $supplierData['supplier_location'] ?? '' ?>">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" name="address" id="address" value="<?= $supplierData['address'] ?? '' ?>">
                             </div>
                             <div class="addFormContainer mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" name="email" id="email" value="<?= $supplierData['email'] ?? '' ?>">
+                                <label for="contactNum" class="form-label">Contact Number</label>
+                                <input type="text" class="form-control" name="contactNum" id="contactNum" value="<?= $supplierData['contactNum'] ?? '' ?>">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="supplierEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" name="supplierEmail" id="supplierEmail" value="<?= $supplierData['supplierEmail'] ?? '' ?>">
                             </div>
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>

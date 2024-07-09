@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) header('location: login.php');
-$_SESSION['table'] = 'products';
+$_SESSION['table'] = 'item'; // Use the new table name
 $user = $_SESSION['user'];
 $products = include('database/showProd.php');
 
@@ -31,10 +31,12 @@ include('partials/header.php');
                                 <thead class="bg-white">
                                     <tr class="userAdd sticky-top">
                                         <th>#</th>
-                                        <th>Product Name</th>
-                                        <th>Description</th>
-                                        <th>Created At</th>
-                                        <th>Updated At</th>
+                                        <th>Item Name</th>
+                                        <th>Unit of Measure</th>
+                                        <th>Item Type</th>
+                                        <th>Quantity</th>
+                                        <th>Min Stock Level</th>
+                                        <th>Item Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -44,15 +46,17 @@ include('partials/header.php');
                                     foreach ($products as $product) { ?>
                                         <tr>
                                             <td class="pt-3"><?= ++$index ?></td>
-                                            <td class="pt-3"><?= htmlspecialchars($product['product_name']) ?></td>
-                                            <td class="pt-3"><?= htmlspecialchars($product['description']) ?></td>
-                                            <td class="pt-3"><?= date('M d, Y @ h:i:s A', strtotime($product['created_at'])) ?></td>
-                                            <td class="pt-3"><?= date('M d, Y @ h:i:s A', strtotime($product['updated_at'])) ?></td>
+                                            <td class="pt-3"><?= htmlspecialchars($product['itemName']) ?></td>
+                                            <td class="pt-3"><?= htmlspecialchars($product['unitOfMeasure']) ?></td>
+                                            <td class="pt-3"><?= htmlspecialchars($product['itemType']) ?></td>
+                                            <td class="pt-3"><?= htmlspecialchars($product['quantity']) ?></td>
+                                            <td class="pt-3"><?= htmlspecialchars($product['minStockLevel']) ?></td>
+                                            <td class="pt-3"><?= htmlspecialchars($product['itemStatus']) ?></td>
                                             <td class="text-center">
-                                                <a href="productUpdateForm.php?id=<?= $product['id'] ?>" class="btn btn-sm btn-outline-primary m-1">
+                                                <a href="productUpdateForm.php?itemID=<?= $product['itemID'] ?>" class="btn btn-sm btn-outline-primary m-1">
                                                     <i class="fa fa-pencil"></i> Edit
                                                 </a>
-                                                <button class="btn btn-sm btn-outline-danger deleteProduct m-1" data-product-id="<?= $product['id'] ?>" data-product-name="<?= htmlspecialchars($product['product_name']) ?>">
+                                                <button class="btn btn-sm btn-outline-danger deleteProduct m-1" data-product-id="<?= $product['itemID'] ?>" data-product-name="<?= htmlspecialchars($product['itemName']) ?>">
                                                     <i class="fa fa-trash"></i> Delete
                                                 </button>
                                             </td>
@@ -98,7 +102,7 @@ include('partials/header.php');
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
-                                product_id: productId
+                                itemID: productId
                             }),
                         })
                         .then(response => response.json())

@@ -11,12 +11,12 @@ if (!isset($_SESSION['user'])) {
 include('connect.php');
 
 $data = json_decode(file_get_contents('php://input'), true);
-$supplier_id = isset($data['supplier_id']) ? (int) $data['supplier_id'] : 0;
+$supplier_id = isset($data['supplierID']) ? (int) $data['supplierID'] : 0;
 
 try {
     if ($supplier_id > 0) {
-        $stmt = $conn->prepare("DELETE FROM suppliers WHERE id = :id");
-        $stmt->bindParam(':id', $supplier_id, PDO::PARAM_INT);
+        $stmt = $conn->prepare("DELETE FROM supplier WHERE supplierID = :supplierID");
+        $stmt->bindParam(':supplierID', $supplier_id, PDO::PARAM_INT);
         $stmt->execute();
 
         $response = [

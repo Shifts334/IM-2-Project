@@ -3,26 +3,35 @@ session_start();
 include('connect.php');
 
 $data = json_decode(file_get_contents('php://input'), true);
-$user_id = isset($data['user_id']) ? (int) $data['user_id'] : 0;
+$user_id = isset($data['userID']) ? (int) $data['userID'] : 0;
+
+$response = ['success' => false, 'message' => ''];
 
 try {
     if ($user_id > 0) {
-        $stmt = $conn->prepare("DELETE FROM users WHERE id = :id");
-        $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
+        // Check if user exists
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE userID = :userID");
+        $stmt->bindParam(':userID', $user_id, PDO::PARAM_INT);
         $stmt->execute();
+        
+        if ($stmt->fetchColumn() > 0) {
+            // User exists, proceed to delete
+            $stmt = $conn->prepare("DELETE FROM users WHERE userID = :userID");
+            $stmt->bindParam(':userID', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
 
-        $response = [
-            'success' => true,
-            'message' => 'User successfully deleted from the system.'
-        ];
+            $response['success'] = true;
+            $response['message'] = 'User successfully deleted from the system.';
+        } else {
+            // User does not exist
+            throw new Exception('User not found.');
+        }
     } else {
         throw new Exception('Invalid user ID.');
     }
 } catch (Exception $e) {
-    $response = [
-        'success' => false,
-        'message' => $e->getMessage()
-    ];
+    $response['message'] = $e->getMessage();
 }
 
 echo json_encode($response);
+?>

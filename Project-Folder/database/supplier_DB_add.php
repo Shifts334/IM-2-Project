@@ -12,44 +12,45 @@ if (!isset($_SESSION['user'])) {
 }
 
 $user = $_SESSION['user'];
-$created_by = $user['id']; // Assuming 'id' is the key for the user ID in the session data
 
-$table_name = 'suppliers'; // Directly using the suppliers table name
-$supplier_name = $_POST['supplier_name'];
-$supplier_location = $_POST['supplier_location'];
-$email = $_POST['email'];
-$supplier_id = isset($_POST['id']) ? $_POST['id'] : null;
+$table_name = 'supplier'; // Directly using the supplier table name
+$company_name = $_POST['companyName'];
+$address = $_POST['address'];
+$contact_num = $_POST['contactNum'];
+$supplier_email = $_POST['supplierEmail'];
+$supplier_id = isset($_POST['supplierID']) ? $_POST['supplierID'] : null;
 
 try {
     include('connect.php');
 
     if ($supplier_id) {
         // Update existing supplier
-        $command = "UPDATE $table_name SET supplier_name = :supplier_name, supplier_location = :supplier_location, email = :email, updated_at = NOW() WHERE id = :id";
+        $command = "UPDATE $table_name SET companyName = :companyName, address = :address, contactNum = :contactNum, supplierEmail = :supplierEmail WHERE supplierID = :supplierID";
         $stmt = $conn->prepare($command);
-        $stmt->bindParam(':id', $supplier_id);
-        $stmt->bindParam(':supplier_name', $supplier_name);
-        $stmt->bindParam(':supplier_location', $supplier_location);
-        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':supplierID', $supplier_id, PDO::PARAM_INT);
+        $stmt->bindParam(':companyName', $company_name);
+        $stmt->bindParam(':address', $address);
+        $stmt->bindParam(':contactNum', $contact_num);
+        $stmt->bindParam(':supplierEmail', $supplier_email);
         $stmt->execute();
 
         $response = [
             'success' => true,
-            'message' => $supplier_name . ' successfully updated.'
+            'message' => $company_name . ' successfully updated.'
         ];
     } else {
         // Insert new supplier
-        $command = "INSERT INTO $table_name (supplier_name, supplier_location, email, created_by, created_at) VALUES (:supplier_name, :supplier_location, :email, :created_by, NOW())";
+        $command = "INSERT INTO $table_name (companyName, address, contactNum, supplierEmail) VALUES (:companyName, :address, :contactNum, :supplierEmail)";
         $stmt = $conn->prepare($command);
-        $stmt->bindParam(':supplier_name', $supplier_name);
-        $stmt->bindParam(':supplier_location', $supplier_location);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':created_by', $created_by);
+        $stmt->bindParam(':companyName', $company_name);
+        $stmt->bindParam(':address', $address);
+        $stmt->bindParam(':contactNum', $contact_num);
+        $stmt->bindParam(':supplierEmail', $supplier_email);
         $stmt->execute();
 
         $response = [
             'success' => true,
-            'message' => $supplier_name . ' successfully added to the system.'
+            'message' => $company_name . ' successfully added to the system.'
         ];
     }
 } catch (PDOException $e) {

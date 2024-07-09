@@ -11,20 +11,20 @@ if (!isset($_SESSION['user'])) {
 include('connect.php');
 
 $data = json_decode(file_get_contents('php://input'), true);
-$product_id = isset($data['product_id']) ? (int) $data['product_id'] : 0;
+$item_id = isset($data['itemID']) ? (int) $data['itemID'] : 0;
 
 try {
-    if ($product_id > 0) {
-        $stmt = $conn->prepare("DELETE FROM products WHERE id = :id");
-        $stmt->bindParam(':id', $product_id, PDO::PARAM_INT);
+    if ($item_id > 0) {
+        $stmt = $conn->prepare("DELETE FROM item WHERE itemID = :itemID");
+        $stmt->bindParam(':itemID', $item_id, PDO::PARAM_INT);
         $stmt->execute();
 
         $response = [
             'success' => true,
-            'message' => 'Product successfully deleted from the system.'
+            'message' => 'Item successfully deleted from the system.'
         ];
     } else {
-        throw new Exception('Invalid product ID.');
+        throw new Exception('Invalid item ID.');
     }
 } catch (Exception $e) {
     $response = [

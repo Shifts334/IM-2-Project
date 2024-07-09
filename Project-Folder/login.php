@@ -4,21 +4,20 @@ if (isset($_SESSION['user'])) header('location: dashboard.php');
 
 $error_message = '';
 if ($_POST) {
-
     include('database/connect.php');
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $query = 'SELECT * FROM users WHERE users.email=:email';
+    $query = 'SELECT * FROM users WHERE email=:email';
     $stmt = $conn->prepare($query);
-    $stmt->bindParam(':email', $username);
+    $stmt->bindParam(':email', $email);
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $user = $stmt->fetch();
 
-        if (password_verify($password, $user['password'])) {
+        if ($password === $user['password']) {
             $_SESSION['user'] = $user;
             header('Location: dashboard.php');
         } else {
@@ -54,8 +53,8 @@ include('partials/header.php');
 
                     <form action="login.php" method="POST">
                         <div class="mb-4">
-                            <label for="username" class="form-label login">Email</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your email" required>
+                            <label for="email" class="form-label login">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                         </div>
                         <div class="mb-4">
                             <label for="password" class="form-label login">Password</label>

@@ -34,9 +34,10 @@ include('partials/header.php');
                                         <th>#</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
+                                        <th>Department</th>
+                                        <th>Permissions</th>
                                         <th>Email</th>
                                         <th>Created At</th>
-                                        <th>Updated At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -48,14 +49,15 @@ include('partials/header.php');
                                             <td class="pt-3"><?= ++$index ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['fname']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['lname']) ?></td>
+                                            <td class="pt-3"><?= htmlspecialchars($user['department']) ?></td>
+                                            <td class="pt-3"><?= htmlspecialchars($user['permissions']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['email']) ?></td>
                                             <td class="pt-3"><?= date('M d, Y @ h:i:s A', strtotime($user['created_at'])) ?></td>
-                                            <td class="pt-3"><?= date('M d, Y @ h:i:s A', strtotime($user['updated_at'])) ?></td>
                                             <td class="text-center">
-                                                <a href="userUpdateForm.php?id=<?= $user['id'] ?>" class="btn btn-sm btn-outline-primary m-1">
+                                                <a href="userUpdateForm.php?userID=<?= $user['userID'] ?>" class="btn btn-sm btn-outline-primary m-1">
                                                     <i class="fa fa-pencil"></i> Edit
                                                 </a>
-                                                <button class="btn btn-sm btn-outline-danger deleteUser m-1" data-user-id="<?= $user['id'] ?>" data-fname="<?= htmlspecialchars($user['fname']) ?>" data-lname="<?= htmlspecialchars($user['lname']) ?>">
+                                                <button class="btn btn-sm btn-outline-danger deleteUser m-1" data-user-id="<?= $user['userID'] ?>" data-fname="<?= htmlspecialchars($user['fname']) ?>" data-lname="<?= htmlspecialchars($user['lname']) ?>">
                                                     <i class="fa fa-trash"></i> Delete
                                                 </button>
                                             </td>
@@ -103,7 +105,7 @@ include('partials/header.php');
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
-                                user_id: userId
+                                userID: userId
                             }),
                         })
                         .then(response => response.json())
