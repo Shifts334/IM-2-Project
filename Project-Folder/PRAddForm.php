@@ -39,7 +39,7 @@ include('partials/header.php');
                                 <select class="form-control" name="PRStatus" id="PRStatus">
                                     <option value="pending">Pending</option>
                                     <option value="approved">Approved</option>
-                                    <option value="converted">Converted</option>
+                                    <option value="ordered">Ordered</option>
                                 </select>
                             </div>
                             <div id="productContainer">
