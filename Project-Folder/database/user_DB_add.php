@@ -42,5 +42,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $_SESSION['response'] = $response;
-header('location: ../supplierAdd.php');
+header('location: ../userAdd.php');
 ?>
