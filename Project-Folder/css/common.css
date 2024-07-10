@@ -32,10 +32,6 @@ td {
     box-shadow: 0 0 0 0.2rem rgba(70, 117, 78, 0.25);
 }
 
-.btn-primary {
-    transition: all 0.3s ease;
-}
-
 .dashboard_content_container {
     width: 80%;
     display: flex;
@@ -65,12 +61,3 @@ td {
     background-color: #fff;
     min-height: 500px;
 }
-
- .custom-modal.modal {
-     background-color: rgba(0, 0, 0, 0.3);
-     /* Adjust the last value (0.3) to control opacity */
- }
-
- .custom-modal .modal-backdrop {
-     opacity: 0 !important;
- }

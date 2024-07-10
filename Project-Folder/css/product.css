@@ -1,5 +1,5 @@
 /* First Column Left */
-form::after {
+/* form::after {
     content: '';
     clear: both;
     display: block;
@@ -60,12 +60,11 @@ p.responseMessage_success {
 
 p.responseMessage_error {
     background: #d05555;
-}
+} */
 
 /* Second-Column Right */
 
-
-div.row {
+/* div.row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -120,5 +119,4 @@ p.userCount {
     color: green;
     font-size: 15px;
 
-}
-
+} */

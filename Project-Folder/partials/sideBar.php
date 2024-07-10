@@ -2,8 +2,8 @@
     <!-- add logo here -->
     <h3 class="dashboard_logo" id="dashboard_logo">Palm Grass Hotel</h3>
     <div class="dashboard_sidebar_user">
-        <img src="images/userImg.png" alt="User" id="userImage"/>
-        <span> <?=$user['fname'].' '.$user['lname']?></span>
+        <img src="images/userImg.png" alt="User" id="userImage" />
+        <span> <?= $user['fname'] . ' ' . $user['lname'] ?></span>
     </div>
 
     <div class="dashboard_sidebar_menus">
@@ -11,19 +11,19 @@
             <li class="menuActive">
                 <a href="dashboard.php"><i class="fa fa-dashboard"></i> <span class="menuText"> Dashboard</span></a>
             </li>
-            <li>
-                <a href="userAdd.php"><i class="fa fa-user"></i> <span class="menuText"> User List</span></a>
+            <li class="menuActive">
+                <a href="userAdd.php"><i class="fa fa-user"></i> <span class="menuText"> Profile List</span></a>
             </li>
-            <li>
-                <a href="productAdd.php"><i class="fa fa-server"></i> <span class="menuText"> Inventory/Product List</span></a>
+            <li class="menuActive">
+                <a href="productAdd.php"><i class="fa fa-server"></i> <span class="menuText"> Inventory</span></a>
             </li>
-            <li>
-                <a href="supplierAdd.php"><i class="fa fa-book"></i> <span class="menuText"> Suppliers</span></a>
+            <li class="menuActive">
+                <a href="PR.php"><i class="fa fa-sticky-note"></i> <span class="menuText"> Purchase Requests</span></a>
             </li>
-            <li>
+            <li class="menuActive">
                 <a href=""><i class="fa fa-book"></i> <span class="menuText"> Purchase History</span></a>
             </li>
-            
+
         </ul>
     </div>
 </div>
