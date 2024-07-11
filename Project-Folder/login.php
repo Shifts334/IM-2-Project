@@ -1,9 +1,12 @@
 <?php
 session_start();
-if (isset($_SESSION['user'])) header('location: dashboard.php');
+if (isset($_SESSION['user'])) {
+    header('location: dashboard.php');
+    exit();
+}
 
 $error_message = '';
-if ($_POST) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include('database/connect.php');
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -17,9 +20,10 @@ if ($_POST) {
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $user = $stmt->fetch();
 
-        if ($password === $user['password']) {
+        if (password_verify($password, $user['password'])) {
             $_SESSION['user'] = $user;
             header('Location: dashboard.php');
+            exit();
         } else {
             $error_message = "Please make sure that your credentials are correct.";
         }

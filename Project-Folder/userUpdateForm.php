@@ -49,10 +49,10 @@ if (isset($_GET['userID'])) {
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" name="email" id="email" value="<?= $userData['email'] ?? '' ?>">
+                                <input type="email" class="form-control" name="email" id="email" value="<?= $userData['email'] ?? '' ?>">
                             </div>
                             <div class="addFormContainer mb-3">
-                                <label for="password" class="form-label">Password (leave blank to keep current password)</label>
+                                <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" name="password" id="password">
                             </div>
                             <div class="addFormContainer mb-3">
@@ -91,6 +91,7 @@ if (isset($_GET['userID'])) {
                     let department = targetElement.dataset.department;
                     let permissions = targetElement.dataset.permissions;
                     let workStatus = targetElement.dataset.workStatus;
+                    // let pass = targetElement.dataset.password;            
 
                     document.getElementById('user_id').value = userId;
                     document.getElementById('fname').value = fname;
@@ -99,7 +100,7 @@ if (isset($_GET['userID'])) {
                     document.getElementById('department').value = department;
                     document.getElementById('permissions').value = permissions;
                     document.getElementById('workStatus').value = workStatus;
-                    document.getElementById('password').value = ''; // Clear password field
+                    // document.getElementById('password').value = pass; 
                 }
             });
         };
