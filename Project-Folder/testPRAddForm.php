@@ -6,6 +6,8 @@ $user = $_SESSION['user'];
 
 $pageTitle = 'Create Purchase Request';
 include('partials/header.php');
+include('database/fetchOptions.php');
+$items = fetchItem();
 ?>
 
 <div id="dashboardMainContainer">
@@ -21,9 +23,7 @@ include('partials/header.php');
                         <h2 class="card-title my-2 mx-4">Create Purchase Request</h2>
                     </div>
                     <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
-                        <form action="database/PR_DB_add.php" method="POST" class="AddForm">
-                            <input type="hidden" name="requestedBy" id="userid" value="<?php $user['userID']; ?>"> <!-- update request -->
-                            <input type="hidden" name="PRStatus" id="PRStatus" value="pending">
+                        <form action="database/PR_DB_add.php" method="POST" class="AddForm" id="dynamic-form">
                             <div class="addFormContainer mb-3">
                                 <label for="date_needed" class="form-label">Date Needed</label>
                                 <input type="date" class="form-control" name="dateNeeded" id="date_needed">
@@ -36,22 +36,22 @@ include('partials/header.php');
                                 <label for="reason" class="form-label">Reason</label>
                                 <input type="text" class="form-control" name="reason" id="reason">
                             </div>
-                            <!-- <div class="addFormContainer mb-3">
-                                <label for="PRStatus" class="form-label">Status</label>
-                                <select class="form-control" name="PRStatus" id="PRStatus">
-                                    <option value="pending">Pending</option>
-                                    <option value="approved">Approved</option>
-                                    <option value="ordered">Ordered</option>
-                                </select>
-                            </div> -->
+                            <!--made PR status pending when created -->  
+                            <input type="hidden" id="prstatus" name="PRStatus" value="pending">
+                           
                             <div id="productContainer">
                                 <div class="d-flex justify-content-between mb-3">
                                     <label for="product" class="form-label pt-3">Product/s</label>
                                     <button type="button" id="addProductButton" class="btn btn-primary mb-3">Add Product</button>
                                 </div>
-                                <div class="productInput mb-2 d-flex">
-                                    <input type="text" class="form-control" name="itemID[]" placeholder="Item ID">
-                                    <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity">
+                                <div class="productInput mb-2 d-flex"> <!-- remade the form -->
+                                    <select class="form-control"  name="itemID[]" id="itemTemplate"  placeholder="Item">
+                                    <?php
+                                        foreach ($items as $item) { ?>
+                                        <option value="<?= htmlspecialchars($item['itemID'])?>"><?= htmlspecialchars($item['itemName']) ?></option>
+                                     <?php } ?>
+                                    </select>
+                                    <input type="number" class="form-control" name="requestQuantity[]" placeholder="Quantity">
                                     <input type="text" class="form-control mx-2" name="productEstimatedCost[]" placeholder="Estimated Cost">
                                     <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
                                 </div>
@@ -70,26 +70,54 @@ include('partials/header.php');
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        
         const productContainer = document.getElementById('productContainer');
         const addProductButton = document.getElementById('addProductButton');
+
+        const itemTemplate = document.getElementById('itemTemplate').innerHTML;
+       
 
         addProductButton.addEventListener('click', function() {
             const productInput = document.createElement('div');
             productInput.classList.add('productInput', 'mb-2', 'd-flex');
-            productInput.innerHTML = `
-                <input type="text" class="form-control" name="itemID[]" placeholder="Item ID">
-                <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity">
-                <input type="text" class="form-control mx-2" name="productEstimatedCost[]" placeholder="Estimated Cost">
-                <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
-            `;
-            productContainer.appendChild(productInput);
-        });
+           
+            // Check for duplicates before appending           
+                productInput.innerHTML = `
+                    <select class="form-control" name="itemID[]" placeholder="Item">
+                        ${itemTemplate}
+                    </select>
+                    <input type="number" class="form-control" name="requestQuantity[]" placeholder="Quantity">
+                    <input type="text" class="form-control mx-2" name="productEstimatedCost[]" placeholder="Estimated Cost">
+                    <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
+                `;
+                const selectElements = productInput.querySelectorAll('select, input');
+                productContainer.appendChild(productInput);
+            });
 
         productContainer.addEventListener('click', function(e) {
             if (e.target.classList.contains('removeProduct')) {
                 e.target.parentElement.remove();
             }
         });
+        const form = document.getElementById('dynamic-form');
+            form.addEventListener('submit', function (e) {
+                const inputs = productContainer.querySelectorAll('.productInput select, .productInput input');
+                const values = new Set();
+                let duplicate = false;
+
+                inputs.forEach(input => {
+                    if (values.has(input.value) && input.value !== '') {
+                        duplicate = true;
+                    } else {
+                        values.add(input.value);
+                    }
+                });
+
+                if (duplicate) {
+                    alert('Form contains duplicate inputs!');
+                    e.preventDefault();
+                }
+            });
     });
 </script>
 
