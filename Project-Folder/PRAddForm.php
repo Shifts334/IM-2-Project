@@ -6,6 +6,8 @@ $user = $_SESSION['user'];
 
 $pageTitle = 'Create Purchase Request';
 include('partials/header.php');
+include('database/fetchOptions.php');
+$items = fetchItem();
 ?>
 
 <div id="dashboardMainContainer">
@@ -22,7 +24,6 @@ include('partials/header.php');
                     </div>
                     <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
                         <form action="database/PR_DB_add.php" method="POST" class="AddForm">
-                            <input type="hidden" name="requestedBy" id="userid" value="<?php $user['userID']; ?>"> <!-- update request -->
                             <input type="hidden" name="PRStatus" id="PRStatus" value="pending">
                             <div class="addFormContainer mb-3">
                                 <label for="date_needed" class="form-label">Date Needed</label>
@@ -50,9 +51,14 @@ include('partials/header.php');
                                     <button type="button" id="addProductButton" class="btn btn-primary mb-3">Add Product</button>
                                 </div>
                                 <div class="productInput mb-2 d-flex">
-                                    <input type="text" class="form-control" name="itemID[]" placeholder="Item ID">
-                                    <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity">
-                                    <input type="text" class="form-control mx-2" name="productEstimatedCost[]" placeholder="Estimated Cost">
+                                    <select class="form-control"  name="itemID[]" id="itemTemplate"  placeholder="Item">
+                                    <?php
+                                        foreach ($items as $item) { ?>
+                                        <option value="<?= htmlspecialchars($item['itemID'])?>"><?= htmlspecialchars($item['itemName']) ?></option>
+                                     <?php } ?>
+                                    </select>
+                                    <input type="number" class="form-control" name="requestQuantity[]" placeholder="Quantity">
+                                    <input type="text" class="form-control mx-2" name="productEstimatedCost[]" placeholder="Estimated Cost" step=".01">
                                     <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
                                 </div>
                             </div>
@@ -72,16 +78,19 @@ include('partials/header.php');
     document.addEventListener('DOMContentLoaded', function() {
         const productContainer = document.getElementById('productContainer');
         const addProductButton = document.getElementById('addProductButton');
+        const itemTemplate = document.getElementById('itemTemplate').innerHTML;
 
         addProductButton.addEventListener('click', function() {
             const productInput = document.createElement('div');
             productInput.classList.add('productInput', 'mb-2', 'd-flex');
-            productInput.innerHTML = `
-                <input type="text" class="form-control" name="itemID[]" placeholder="Item ID">
-                <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity">
-                <input type="text" class="form-control mx-2" name="productEstimatedCost[]" placeholder="Estimated Cost">
-                <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
-            `;
+             productInput.innerHTML = `
+                    <select class="form-control" name="itemID[]" placeholder="Item">
+                        ${itemTemplate}
+                    </select>
+                    <input type="number" class="form-control" name="requestQuantity[]" placeholder="Quantity">
+                    <input type="number" class="form-control mx-2" name="productEstimatedCost[]" placeholder="Estimated Cost" step=".01">
+                    <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
+                `;
             productContainer.appendChild(productInput);
         });
 
@@ -92,5 +101,5 @@ include('partials/header.php');
         });
     });
 </script>
-
-<?php include('partials/footer.php'); ?>
+<!--edge case: duplicate items -->
+<?php include('partials/footer.php'); ?>    

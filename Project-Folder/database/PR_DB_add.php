@@ -7,8 +7,10 @@ $date_needed = $_POST['dateNeeded'];
 $status = $_POST['PRStatus'];
 $estimated_cost = $_POST['estimatedCost'];
 $reason = $_POST['reason'];
-$requested_by = $_POST['requestedBy']; // Assuming this is passed from the form
+
 $PR_date_requested = date('Y-m-d'); // Assuming the current date for PRDateRequested
+$user = $_SESSION['user']; //user data
+$requested_by = $user['userID']; // Assuming this is passed from the form
 
 $PR_id = isset($_POST['PRID']) ? $_POST['PRID'] : null;
 
@@ -23,6 +25,9 @@ try {
         $command = "UPDATE $table_name SET PRDateRequested = :PRDateRequested, dateNeeded = :dateNeeded, PRStatus = :PRStatus, estimatedCost = :estimatedCost, reason = :reason WHERE PRID = :PRID";
         $stmt = $conn->prepare($command); //check pr date requested
         $stmt->bindParam(':PRID', $PR_id);
+
+        $commandItem = "UPDATE $table_assoc SET itemID = :item, requestQuantity = :req, estimatedCost = :est WHERE PRID = :PRID";
+        $gftf = $conn->prepare($commandItem);
     } else {
         // Insert new purchase request
         $command = "INSERT INTO $table_name (requestedBy, PRDateRequested, dateNeeded, PRStatus, estimatedCost, reason) VALUES (:requestedBy, current_timestamp(), :dateNeeded, :PRStatus, :estimatedCost, :reason)";
