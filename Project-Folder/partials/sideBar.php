@@ -18,7 +18,7 @@
                 <a href="productAdd.php"><i class="fa fa-server"></i> <span class="menuText"> Inventory</span></a>
             </li>
             <li class="menuActive">
-                <a href="PR.php"><i class="fa fa-sticky-note"></i> <span class="menuText"> Purchase Requests</span></a> <!--Dropdown for Approved, Pending, Converted PR-->
+                <a href="PR.php"><i class="fa fa-sticky-note"></i> <span class="menuText"> Purchase Requests</span></a>
             </li>
             <li class="menuActive">
                 <a href=""><i class="fa fa-book"></i> <span class="menuText"> Purchase History</span></a>

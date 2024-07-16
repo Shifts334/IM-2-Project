@@ -8,19 +8,11 @@ $pageTitle = 'Update Purchase Request';
 include('partials/header.php');
 
 $requestData = [];
-$items = fetchItem();
 if (isset($_GET['id'])) {
     include('database/connect.php');
     $stmt = $conn->prepare("SELECT * FROM purchase_requests WHERE PRID = :PRID");
     $stmt->execute(['PRID' => $_GET['id']]);
-    
     $requestData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-     // getting items with id
-    $stmt = $conn->prepare("SELECT * FROM pr_item WHERE PRID = :PRID");
-    $stmt->execute(['PRID' => $_GET['id']]);
-    $itemData = $stmt->fetch(PDO::FETCH_ASSOC);
-   
 }
 ?>
 
@@ -59,22 +51,6 @@ if (isset($_GET['id'])) {
                                     <option value="converted" <?= isset($requestData['PRStatus']) && $requestData['PRStatus'] == 'converted' ? 'selected' : '' ?>>Converted</option>
                                 </select>
                             </div>
-                            <!-- loop adding the items here -->
-                             <?php 
-                                foreach ($itemData as $itemDatum) { ?>
-                            <div class="productInput mb-2 d-flex">
-                                <select class="form-control"  name="itemID[]" id="itemTemplate"  placeholder="Item">
-                                <?php // needs fixing
-                                    foreach ($items as $item) { ?>
-                                    <option value="<?= htmlspecialchars($item['itemID'])?>"><?= htmlspecialchars($item['itemName']) ?></option>
-                                <?php } ?>
-                                </select>
-                                <input type="number" class="form-control" name="requestQuantity[]" placeholder="Quantity" value="<?= $itemDatum['requestQuantity'] ?>">
-                                <input type="text" class="form-control mx-2" name="productEstimatedCost[]" placeholder="Estimated Cost" step=".01" value="<?= $itemDatum['estimatedCost'] ?>">
-                                <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
-                            </div>
-                             <?php } ?>
-                            <!-- end of loop -->
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>
                                 <a href="PR.php" class="btn btn-secondary mx-1 mt-4">Cancel</a>
@@ -86,28 +62,5 @@ if (isset($_GET['id'])) {
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const productContainer = document.getElementById('productContainer');
-        const addProductButton = document.getElementById('addProductButton');
 
-        addProductButton.addEventListener('click', function() {
-            const productInput = document.createElement('div');
-            productInput.classList.add('productInput', 'mb-2', 'd-flex');
-            productInput.innerHTML = `
-                <input type="text" class="form-control" name="itemID[]" placeholder="Item ID">
-                <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity">
-                <input type="text" class="form-control mx-2" name="productEstimatedCost[]" placeholder="Estimated Cost">
-                <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
-            `;
-            productContainer.appendChild(productInput);
-        });
-
-        productContainer.addEventListener('click', function(e) {
-            if (e.target.classList.contains('removeProduct')) {
-                e.target.parentElement.remove();
-            }
-        });
-    });
-</script>
 <?php include('partials/footer.php'); ?>

@@ -13,10 +13,9 @@ if (isset($_GET['itemID'])) {
     $stmt = $conn->prepare("SELECT * FROM item WHERE itemID = :itemID");
     $stmt->execute(['itemID' => $_GET['itemID']]);
     $productData = $stmt->fetch(PDO::FETCH_ASSOC);
-
 }
 ?>
-<!-- NEED TO ADD COMMENTS FORM -->
+
 <div id="dashboardMainContainer">
     <?php include('partials/sideBar.php') ?>
 
@@ -32,7 +31,6 @@ if (isset($_GET['itemID'])) {
                     <div class="card-body p-5">
                         <form action="database/product_DB_add.php" method="POST" class="AddForm">
                             <input type="hidden" name="itemID" id="item_id" value="<?= $productData['itemID'] ?? '' ?>">
-                            <input type="hidden" name="oldQuantity" id="old" value="<?= $productData['quantity'] ?? '' ?>">
                             <div class="addFormContainer mb-3">
                                 <label for="itemName" class="form-label">Item Name</label>
                                 <input type="text" class="form-control" name="itemName" id="itemName" value="<?= $productData['itemName'] ?? '' ?>">
@@ -56,10 +54,6 @@ if (isset($_GET['itemID'])) {
                             <div class="addFormContainer mb-3">
                                 <label for="itemStatus" class="form-label">Item Status</label>
                                 <input type="number" class="form-control" name="itemStatus" id="itemStatus" value="<?= $productData['itemStatus'] ?? '' ?>">
-                            </div>
-                            <div class="addFormContainer mb-3">
-                                <label for="itemStatus" class="form-label">Reason</label>
-                                <input type="textnumber" class="form-control" name="comment" id="reason" required>
                             </div>
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>
