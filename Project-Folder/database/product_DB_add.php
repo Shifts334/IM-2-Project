@@ -11,7 +11,37 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-$table_name = 'item'; // Use the new table name
+include('connect.php');
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'getSuppliers') {
+    if (!isset($_GET['itemID'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Item ID is required']);
+        exit();
+    }
+
+    $itemID = $_GET['itemID'];
+
+    try {
+        $stmt = $conn->prepare("SELECT supplier.companyName, supplier.status, item_costs.cost 
+                                FROM item_costs 
+                                JOIN supplier ON item_costs.supplierID = supplier.supplierID 
+                                WHERE item_costs.itemID = :itemID 
+                                ORDER BY item_costs.cost ASC");
+        $stmt->bindParam(':itemID', $itemID, PDO::PARAM_INT);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($results);
+        exit();
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+        exit();
+    }
+}
+
+$table_name = 'item';
 $item_name = $_POST['itemName'];
 $unit_of_measure = $_POST['unitOfMeasure'];
 $item_type = $_POST['itemType'];
@@ -21,7 +51,6 @@ $item_status = $_POST['itemStatus'];
 $item_id = isset($_POST['itemID']) ? $_POST['itemID'] : null;
 
 try {
-    include('connect.php');
 
     if ($item_id) {
         // Update existing item

@@ -17,20 +17,24 @@ include('partials/header.php');
 
         <div class="dashboard_content d-flex justify-content-center">
             <div class="container m-0 p-0 mw-100">
-                <div class="card h-100 border-0">
+                <div class="card h-100 m-2">
                     <div class="card-header p-3 bg-white d-flex justify-content-between">
                         <h2 class="card-title m-2"><i class="fa fa-list"></i> List of Products</h2>
-                        <a href="productAddForm.php" class="btn btn-primary m-2">
-                            Add New Product
-                        </a>
+                        <div class="d-flex align-items-center m-2">
+                            <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
+                            <input type="text" id="searchInput" class="search-bar mx-2 p-3" placeholder="Search for products...">
+                            <a href="productAddForm.php" class="btn btn-primary mx-2">
+                                Add New Product
+                            </a>
+                        </div>
                     </div>
 
                     <div class="card-body p-0">
-                        <div class="table-responsive flex-grow-1" style="max-height: calc(100vh - 200px); overflow-y: auto;">
+                        <div class="table-responsive flex-grow-1" style="max-height: calc(100vh - 230px); overflow-y: auto;">
                             <table class="table table-hover table-striped border-top">
                                 <thead class="bg-white">
                                     <tr class="userAdd sticky-top">
-                                        <th>#</th>
+                                        <!-- <th>#</th> -->
                                         <th>Item Name</th>
                                         <th>Unit of Measure</th>
                                         <th>Item Type</th>
@@ -45,7 +49,6 @@ include('partials/header.php');
                                     $index = 0;
                                     foreach ($products as $product) { ?>
                                         <tr>
-                                            <td class="pt-3"><?= ++$index ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($product['itemName']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($product['unitOfMeasure']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($product['itemType']) ?></td>
@@ -53,12 +56,13 @@ include('partials/header.php');
                                             <td class="pt-3"><?= htmlspecialchars($product['minStockLevel']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($product['itemStatus']) ?></td>
                                             <td class="text-center">
+                                                <?php include('partials/ItemSuppliersModal.php') ?>
+                                                <button type="button" class="btn btn-sm btn-outline-success m-1" data-bs-toggle="modal" data-bs-target="#ItemSuppliers" data-item-id="<?= $product['itemID'] ?>">
+                                                    <i class="fa fa-eye"></i> Suppliers
+                                                </button>
                                                 <a href="productUpdateForm.php?itemID=<?= $product['itemID'] ?>" class="btn btn-sm btn-outline-primary m-1">
                                                     <i class="fa fa-pencil"></i> Edit
                                                 </a>
-                                                <button class="btn btn-sm btn-outline-danger deleteProduct m-1" data-product-id="<?= $product['itemID'] ?>" data-product-name="<?= htmlspecialchars($product['itemName']) ?>">
-                                                    <i class="fa fa-trash"></i> Delete
-                                                </button>
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -74,6 +78,27 @@ include('partials/header.php');
 </div>
 
 <script>
+
+    //searchbar shit
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const table = document.querySelector('table');
+        const rows = table.querySelectorAll('tbody tr');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         <?php
         if (isset($_SESSION['success_message'])) {

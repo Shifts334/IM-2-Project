@@ -25,10 +25,14 @@ if (isset($_GET['id'])) {
         <div class="dashboard_content d-flex justify-content-center">
             <div class="container">
                 <div class="card m-5">
-                    <div class="card-header p-3 bg-white">
+                    <div class="card-header p-3 bg-white d-flex justify-content-between">
                         <h2 class="card-title my-2 mx-4">Update Purchase Request</h2>
+                        <?php include('partials/PRSuggestionsModal.php') ?>
+                        <button type="button" class="btn btn-primary my-2 mx-4" data-bs-toggle="modal" data-bs-target="#PRSuggestions">
+                            Suggestions
+                        </button>
                     </div>
-                    <div class="card-body p-5">
+                    <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
                         <form action="database/PR_DB_add.php" method="POST" class="AddForm">
                             <input type="hidden" name="PRID" id="request_id" value="<?= $requestData['PRID'] ?? '' ?>">
                             <div class="addFormContainer mb-3">

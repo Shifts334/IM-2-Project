@@ -18,7 +18,7 @@ include('partials/header.php');
 
         <div class="dashboard_content d-flex justify-content-center">
             <div class="container m-0 p-0 mw-100">
-                <div class="card h-100 border-0">
+                <div class="card h-100 m-2">
                     <div class="card-header p-3 bg-white d-flex justify-content-between">
                         <h2 class="card-title m-2"><i class="fa fa-list"></i> List of Users</h2>
                         <a href="userAddForm.php" class="btn btn-primary m-2">
@@ -27,17 +27,18 @@ include('partials/header.php');
                     </div>
 
                     <div class="card-body p-0">
-                        <div class="table-responsive flex-grow-1" style="max-height: calc(100vh - 200px); overflow-y: auto;">
+                        <div class="table-responsive flex-grow-1" style="max-height: calc(100vh - 230px); overflow-y: auto;">
                             <table class="table table-hover table-striped border-top">
                                 <thead class="bg-white">
                                     <tr class="userAdd sticky-top">
-                                        <th>#</th>
+                                        <!-- <th>#</th> -->
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Department</th>
                                         <th>Permissions</th>
                                         <th>Email</th>
                                         <th>Created At</th>
+                                        <th>Work Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -46,13 +47,13 @@ include('partials/header.php');
                                     $index = 0;
                                     foreach ($users as $user) { ?>
                                         <tr>
-                                            <td class="pt-3"><?= ++$index ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['fname']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['lname']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['department']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['permissions']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['email']) ?></td>
                                             <td class="pt-3"><?= date('M d, Y @ h:i:s A', strtotime($user['created_at'])) ?></td>
+                                            <td class="pt-3"><?= $user['workStatus'] == 1 ? "Active" : "Inactive" ?></td>
                                             <td class="text-center">
                                                 <a href="userUpdateForm.php?userID=<?= $user['userID'] ?>" class="btn btn-sm btn-outline-primary m-1">
                                                     <i class="fa fa-pencil"></i> Edit
