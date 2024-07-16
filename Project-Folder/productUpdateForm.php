@@ -31,6 +31,7 @@ if (isset($_GET['itemID'])) {
                     <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
                         <form action="database/product_DB_add.php" method="POST" class="AddForm">
                             <input type="hidden" name="itemID" id="item_id" value="<?= $productData['itemID'] ?? '' ?>">
+                            <input type="hidden" name="oldQuantity" id="old" value="<?= $productData['quantity'] ?? '' ?>">
                             <div class="addFormContainer mb-3">
                                 <label for="itemName" class="form-label">Item Name</label>
                                 <input type="text" class="form-control" name="itemName" id="itemName" value="<?= $productData['itemName'] ?? '' ?>">
@@ -57,6 +58,10 @@ if (isset($_GET['itemID'])) {
                                     <option value="selling">Selling</option>
                                     <option value="not selling">Not Selling</option>
                                 </select>
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="itemStatus" class="form-label">Reason</label>
+                                <input type="textnumber" class="form-control" name="comment" id="reason" required>
                             </div>
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>
