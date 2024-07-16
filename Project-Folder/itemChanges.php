@@ -42,7 +42,7 @@ include('partials/header.php');
                                         <tr>
                                             <td class="pt-3"><?= htmlspecialchars($change['dateModified']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($change['itemName']) ?></td>
-                                            <td class="pt-3"><?= htmlspecialchars($change['comments']) ?></td>
+                                            <td class="pt-3"><?= htmlspecialchars($change['description']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($change['oldQuantity']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($change['adjustedQuantity']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($change['newQuantity']) ?></td>
