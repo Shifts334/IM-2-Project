@@ -138,14 +138,9 @@ include('partials/header.php');
             attachModalListeners();
         });
 
-        <?php if (isset($_SESSION['success_message'])) : ?>
-            alert('<?= addslashes($_SESSION['success_message']) ?>');
-            <?php unset($_SESSION['success_message']); ?>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['error_message'])) : ?>
-            alert('Error: <?= addslashes($_SESSION['error_message']) ?>');
-            <?php unset($_SESSION['error_message']); ?>
+        <?php if (isset($_SESSION['response'])) : ?>
+            alert('<?= addslashes($_SESSION['response']['message']) ?>');
+            <?php unset($_SESSION['response']); ?>
         <?php endif; ?>
 
         document.addEventListener('click', function(e) {

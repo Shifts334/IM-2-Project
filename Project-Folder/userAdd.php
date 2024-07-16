@@ -44,7 +44,6 @@ include('partials/header.php');
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $index = 0;
                                     foreach ($users as $user) { ?>
                                         <tr>
                                             <td class="pt-3"><?= htmlspecialchars($user['fname']) ?></td>
@@ -78,13 +77,9 @@ include('partials/header.php');
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         <?php
-        if (isset($_SESSION['success_message'])) {
-            echo "alert('" . addslashes($_SESSION['success_message']) . "');";
-            unset($_SESSION['success_message']);
-        }
-        if (isset($_SESSION['error_message'])) {
-            echo "alert('Error: " . addslashes($_SESSION['error_message']) . "');";
-            unset($_SESSION['error_message']);
+        if (isset($_SESSION['response'])) {
+            echo "alert('" . addslashes($_SESSION['response']['message']) . "');";
+            unset($_SESSION['response']);
         }
         ?>
     });

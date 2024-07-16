@@ -33,7 +33,6 @@ include('partials/header.php');
                             <table class="table table-hover table-striped border-top">
                                 <thead class="bg-white">
                                     <tr class="userAdd sticky-top">
-                                        <!-- <th>#</th> -->
                                         <th>Company Name</th>
                                         <th>Address</th>
                                         <th>Contact Number</th>
@@ -72,6 +71,13 @@ include('partials/header.php');
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        <?php
+        if (isset($_SESSION['response'])) {
+            echo "alert('" . addslashes($_SESSION['response']['message']) . "');";
+            unset($_SESSION['response']);
+        }
+        ?>
+
         const searchInput = document.getElementById('searchInput');
         const table = document.querySelector('table');
         const rows = table.querySelectorAll('tbody tr');
@@ -88,22 +94,7 @@ include('partials/header.php');
                 }
             });
         });
-    });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        <?php
-        if (isset($_SESSION['success_message'])) {
-            echo "alert('" . addslashes($_SESSION['success_message']) . "');";
-            unset($_SESSION['success_message']);
-        }
-        if (isset($_SESSION['error_message'])) {
-            echo "alert('Error: " . addslashes($_SESSION['error_message']) . "');";
-            unset($_SESSION['error_message']);
-        }
-        ?>
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('click', function(e) {
             if (e.target.closest('.deleteSupplier')) {
                 e.preventDefault();
