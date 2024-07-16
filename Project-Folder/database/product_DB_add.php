@@ -41,13 +41,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
     }
 }
 
-$table_name = 'item';
+$table_name = 'item'; // Use the new table name
+$table2 = 'item_changes';
 $item_name = $_POST['itemName'];
 $unit_of_measure = $_POST['unitOfMeasure'];
 $item_type = $_POST['itemType'];
 $quantity = $_POST['quantity'];
 $min_stock_level = $_POST['minStockLevel'];
 $item_status = $_POST['itemStatus'];
+$old_quantity = isset($_POST['oldQuantity']) ? $_POST['oldQuantity'] : null;
+$reason = isset($_POST['comment']) ? $_POST['comment'] : null;
 $item_id = isset($_POST['itemID']) ? $_POST['itemID'] : null;
 
 try {
@@ -65,6 +68,20 @@ try {
         $stmt->bindParam(':item_status', $item_status);
         $stmt->execute();
 
+       
+        if($old_quantity != $quantity){
+            $adjusted = $quantity - $old_quantity;
+            $command = "INSERT INTO $table2 (dateModified, itemID, description,  oldQuantity, adjustedQuantity, newQuantity) VALUES (current_timestamp(), :item_id, :comment, :old_quantity, :adjusted, :quantity)";
+            $stmt = $conn->prepare($command);
+            $stmt->bindParam(':item_id', $item_id);
+            $stmt->bindParam(':comment', $reason);
+            $stmt->bindParam(':old_quantity', $old_quantity);
+            $stmt->bindParam(':adjusted', $adjusted);
+            $stmt->bindParam(':quantity', $quantity);
+            $stmt->execute();
+
+        }
+        
         $response = [
             'success' => true,
             'message' => $item_name . ' successfully updated.'
