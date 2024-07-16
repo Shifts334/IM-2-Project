@@ -3,7 +3,6 @@
     $username = 'root';
     $password ='';
 
-
     //connecting to database
     try{
         $conn = new PDO("mysql:host=$servername;dbname=pgh_inventory", $username, $password);

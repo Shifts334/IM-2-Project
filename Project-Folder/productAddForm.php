@@ -20,7 +20,7 @@ include('partials/header.php');
                     <div class="card-header p-3 bg-white">
                         <h2 class="card-title m-2">Add Product</h2>
                     </div>
-                    <div class="card-body p-5">
+                    <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
                         <form action="database/product_DB_add.php" method="POST" class="AddForm">
                             <input type="hidden" name="itemID" id="item_id">
                             <div class="addFormContainer mb-3">
@@ -37,20 +37,27 @@ include('partials/header.php');
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" name="quantity" id="quantity">
+                                <input type="number" step="1" min="0" class="form-control" name="quantity" id="quantity">
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="minStockLevel" class="form-label">Min Stock Level</label>
-                                <input type="number" class="form-control" name="minStockLevel" id="minStockLevel">
+                                <input type="number" step="1" min="0" class="form-control" name="minStockLevel" id="minStockLevel">
                             </div>
                             <div class="addFormContainer mb-3">
-                                <label for="itemStatus" class="form-label">Item Status</label>
+                                <!-- <label for="itemStatus" class="form-label">Item Status</label>
                                 <input type="number" class="form-control" name="itemStatus" id="itemStatus">
-                            </div>
-                            <div class="d-flex flex-row-reverse flex-wrap">
-                                <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>
-                                <a href="productAdd.php" class="btn btn-secondary mx-1 mt-4">Cancel</a>
-                            </div>
+                            </div> -->
+                                <div class="addFormContainer mb-3">
+                                    <label for="itemStatus" class="form-label">Item Status</label>
+                                    <select class="form-control" name="itemStatus" id="itemStatus">
+                                        <option value="selling">Selling</option>
+                                        <option value="not selling">Not Selling</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex flex-row-reverse flex-wrap">
+                                    <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>
+                                    <a href="productAdd.php" class="btn btn-secondary mx-1 mt-4">Cancel</a>
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -59,24 +66,4 @@ include('partials/header.php');
     </div>
 </div>
 
-<script>
-    function script() {
-        this.initialize = function() {
-            this.registerEvents();
-        };
-
-        this.registerEvents = function() {
-            document.addEventListener('click', function(e) {
-                let targetElement = e.target;
-                let classList = targetElement.classList;
-
-            });
-        };
-
-        this.initialize();
-    }
-
-    new script();
-</script>
-
-<?php include('partials/footer.php'); ?>    
+<?php include('partials/footer.php'); ?>

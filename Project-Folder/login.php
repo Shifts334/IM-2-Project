@@ -1,9 +1,12 @@
 <?php
 session_start();
-if (isset($_SESSION['user'])) header('location: dashboard.php');
+if (isset($_SESSION['user'])) {
+    header('location: dashboard.php');
+    exit();
+}
 
 $error_message = '';
-if ($_POST) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include('database/connect.php');
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -17,13 +20,13 @@ if ($_POST) {
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $user = $stmt->fetch();
 
-        if ($password === $user['password'] && $user['workStatus'] == 1) { //added workstatus
+        if (password_verify($password, $user['password']) && $user['workStatus'] == 1) {
             $_SESSION['user'] = $user;
-            // $_SESSION['userID'] = $user['userID'];
             header('Location: dashboard.php');
-        } else if ($password === $user['password'] && $user['workStatus'] == 0){
+            exit();
+        } else if (password_verify($password, $user['password']) && $user['workStatus'] == 0) {
             $error_message = "Account is inactive.";
-        } else { 
+        } else {
             $error_message = "Please make sure that your credentials are correct.";
         }
     } else {

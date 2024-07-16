@@ -19,19 +19,21 @@ $address = $_POST['address'];
 $contact_num = $_POST['contactNum'];
 $supplier_email = $_POST['supplierEmail'];
 $supplier_id = isset($_POST['supplierID']) ? $_POST['supplierID'] : null;
+$status = $_POST['status'];
 
 try {
     include('connect.php');
 
     if ($supplier_id) {
         // Update existing supplier
-        $command = "UPDATE $table_name SET companyName = :companyName, address = :address, contactNum = :contactNum, supplierEmail = :supplierEmail WHERE supplierID = :supplierID";
+        $command = "UPDATE $table_name SET companyName = :companyName, address = :address, contactNum = :contactNum, supplierEmail = :supplierEmail, status = :status WHERE supplierID = :supplierID";
         $stmt = $conn->prepare($command);
         $stmt->bindParam(':supplierID', $supplier_id, PDO::PARAM_INT);
         $stmt->bindParam(':companyName', $company_name);
         $stmt->bindParam(':address', $address);
         $stmt->bindParam(':contactNum', $contact_num);
         $stmt->bindParam(':supplierEmail', $supplier_email);
+        $stmt->bindParam(':status', $status);
         $stmt->execute();
 
         $response = [
@@ -40,12 +42,13 @@ try {
         ];
     } else {
         // Insert new supplier
-        $command = "INSERT INTO $table_name (companyName, address, contactNum, supplierEmail) VALUES (:companyName, :address, :contactNum, :supplierEmail)";
+        $command = "INSERT INTO $table_name (companyName, address, contactNum, supplierEmail, status) VALUES (:companyName, :address, :contactNum, :supplierEmail, :status)";
         $stmt = $conn->prepare($command);
         $stmt->bindParam(':companyName', $company_name);
         $stmt->bindParam(':address', $address);
         $stmt->bindParam(':contactNum', $contact_num);
         $stmt->bindParam(':supplierEmail', $supplier_email);
+        $stmt->bindParam(':status', $status);
         $stmt->execute();
 
         $response = [

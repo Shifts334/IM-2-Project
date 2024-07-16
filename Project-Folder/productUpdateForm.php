@@ -13,10 +13,9 @@ if (isset($_GET['itemID'])) {
     $stmt = $conn->prepare("SELECT * FROM item WHERE itemID = :itemID");
     $stmt->execute(['itemID' => $_GET['itemID']]);
     $productData = $stmt->fetch(PDO::FETCH_ASSOC);
-
 }
 ?>
-<!-- NEED TO ADD COMMENTS FORM -->
+
 <div id="dashboardMainContainer">
     <?php include('partials/sideBar.php') ?>
 
@@ -29,10 +28,9 @@ if (isset($_GET['itemID'])) {
                     <div class="card-header p-3 bg-white">
                         <h2 class="card-title m-2">Update Product</h2>
                     </div>
-                    <div class="card-body p-5">
+                    <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
                         <form action="database/product_DB_add.php" method="POST" class="AddForm">
                             <input type="hidden" name="itemID" id="item_id" value="<?= $productData['itemID'] ?? '' ?>">
-                            <input type="hidden" name="oldQuantity" id="old" value="<?= $productData['quantity'] ?? '' ?>">
                             <div class="addFormContainer mb-3">
                                 <label for="itemName" class="form-label">Item Name</label>
                                 <input type="text" class="form-control" name="itemName" id="itemName" value="<?= $productData['itemName'] ?? '' ?>">
@@ -47,19 +45,18 @@ if (isset($_GET['itemID'])) {
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" name="quantity" id="quantity" value="<?= $productData['quantity'] ?? '' ?>">
+                                <input type="number" step="1" min="0" class="form-control" name="quantity" id="quantity" value="<?= $productData['quantity'] ?? '' ?>">
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="minStockLevel" class="form-label">Min Stock Level</label>
-                                <input type="number" class="form-control" name="minStockLevel" id="minStockLevel" value="<?= $productData['minStockLevel'] ?? '' ?>">
+                                <input type="number" step="1" min="0" class="form-control" name="minStockLevel" id="minStockLevel" value="<?= $productData['minStockLevel'] ?? '' ?>">
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="itemStatus" class="form-label">Item Status</label>
-                                <input type="number" class="form-control" name="itemStatus" id="itemStatus" value="<?= $productData['itemStatus'] ?? '' ?>">
-                            </div>
-                            <div class="addFormContainer mb-3">
-                                <label for="itemStatus" class="form-label">Reason</label>
-                                <input type="textnumber" class="form-control" name="comment" id="reason" required>
+                                <select class="form-control" name="itemStatus" id="itemStatus">
+                                    <option value="selling">Selling</option>
+                                    <option value="not selling">Not Selling</option>
+                                </select>
                             </div>
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>
