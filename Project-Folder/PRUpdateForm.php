@@ -6,13 +6,21 @@ $user = $_SESSION['user'];
 
 $pageTitle = 'Update Purchase Request';
 include('partials/header.php');
+include('database/fetchOptions.php');
+$items = fetchItem();
 
+$itemData = [];
 $requestData = [];
 if (isset($_GET['id'])) {
     include('database/connect.php');
     $stmt = $conn->prepare("SELECT * FROM purchase_requests WHERE PRID = :PRID");
     $stmt->execute(['PRID' => $_GET['id']]);
     $requestData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $stmt = $conn->prepare("SELECT * FROM pr_item WHERE PRID = :PRID");
+    $stmt->execute(['PRID' => $_GET['id']]);
+    $itemData = $stmt->fetch(PDO::FETCH_ASSOC);
+
 }
 ?>
 
@@ -39,10 +47,10 @@ if (isset($_GET['id'])) {
                                 <label for="date_needed" class="form-label">Date Needed</label>
                                 <input type="date" class="form-control" name="dateNeeded" id="date_needed" value="<?= $requestData['dateNeeded'] ?? '' ?>">
                             </div>
-                            <div class="addFormContainer mb-3">
+                            <!-- <div class="addFormContainer mb-3">
                                 <label for="estimated_cost" class="form-label">Estimated Cost</label>
                                 <input type="text" class="form-control" name="estimatedCost" id="estimated_cost" value="<?= $requestData['estimatedCost'] ?? '' ?>">
-                            </div>
+                            </div> -->
                             <div class="addFormContainer mb-3">
                                 <label for="reason" class="form-label">Reason</label>
                                 <input type="text" class="form-control" name="reason" id="reason" value="<?= $requestData['reason'] ?? '' ?>">
@@ -55,6 +63,22 @@ if (isset($_GET['id'])) {
                                     <option value="converted" <?= isset($requestData['PRStatus']) && $requestData['PRStatus'] == 'converted' ? 'selected' : '' ?>>Converted</option>
                                 </select>
                             </div>
+                            <!--start of item data loop -->
+                            <div class="productInput mb-2 d-flex">
+                                    <select class="form-control"  name="itemID[]" id="itemTemplate"  placeholder="Item Name">
+                                    <?php
+                                        foreach ($items as $item) { ?>
+                                        <option value="<?= htmlspecialchars($item['itemID'])?>">
+                                            <?= htmlspecialchars($item['itemName']) ?>
+                                        </option>
+                                     <?php } ?>
+                                    </select>
+                                    <input type="number" class="form-control mx-2" step="0.01" min="0" max="999999999.99" name="productEstimatedCost[]" placeholder="Estimated Cost" <?= $itemData['estimatedCost'] ?? '' ?>>
+                                    <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity" <?= $requestData['quantity'] ?? '' ?>>
+                                    <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
+                            </div>
+
+                            <!-- end of item data loop -->
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>
                                 <a href="PR.php" class="btn btn-secondary mx-1 mt-4">Cancel</a>
@@ -66,5 +90,33 @@ if (isset($_GET['id'])) {
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const productContainer = document.getElementById('productContainer');
+        const addProductButton = document.getElementById('addProductButton');
+        const itemTemplate = document.getElementById('itemTemplate').innerHTML;
+
+        addProductButton.addEventListener('click', function() {
+            const productInput = document.createElement('div');
+            productInput.classList.add('productInput', 'mb-2', 'd-flex');
+            productInput.innerHTML = `
+                <select class="form-control" name="itemID[]" placeholder="Item">
+                        ${itemTemplate}
+                </select>
+                <input type="number" class="form-control mx-2" step="0.01" min="0" max="999999999.99" name="productEstimatedCost[]" placeholder="Estimated Cost">
+                <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity">
+                <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
+            `;
+            productContainer.appendChild(productInput);
+        });
+
+        productContainer.addEventListener('click', function(e) {
+            if (e.target.classList.contains('removeProduct')) {
+                e.target.parentElement.remove();
+            }
+        });
+    });
+</script>
 
 <?php include('partials/footer.php'); ?>
