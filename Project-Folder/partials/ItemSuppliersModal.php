@@ -9,8 +9,6 @@
                     </a>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-
             </div>
             <div class="modal-body">
                 <div class="table-responsive flex-grow-1">
@@ -43,7 +41,7 @@
             itemSuppliersModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
                 const itemId = button.getAttribute('data-item-id');
-                const itemName = button.closest('tr').querySelector('td:nth-child(2)').textContent;
+                const itemName = button.closest('tr').querySelector('td:nth-child(1)').textContent;
 
                 document.getElementById('itemName').textContent = itemName;
 
@@ -54,15 +52,21 @@
                         const tableBody = document.getElementById('supplierTableBody');
                         tableBody.innerHTML = '';
 
-                        data.forEach(supplier => {
+                        if (data.length > 0) {
+                            data.forEach(supplier => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                    <td class="pt-3">${supplier.companyName}</td>
+                                    <td class="pt-3">${supplier.cost}</td>
+                                    <td class="pt-3">${supplier.status}</td>
+                                `;
+                                tableBody.appendChild(row);
+                            });
+                        } else {
                             const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td class="pt-3">${supplier.companyName}</td>
-                                <td class="pt-3">${supplier.cost}</td>
-                                <td class="pt-3">${supplier.status}</td>
-                            `;
+                            row.innerHTML = `<td colspan="3" class="pt-3 text-center">No suppliers available</td>`;
                             tableBody.appendChild(row);
-                        });
+                        }
 
                         document.getElementById('supplierCount').textContent = data.length + ' Suppliers';
                     })

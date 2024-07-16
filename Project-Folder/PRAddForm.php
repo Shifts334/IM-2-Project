@@ -6,8 +6,6 @@ $user = $_SESSION['user'];
 
 $pageTitle = 'Create Purchase Request';
 include('partials/header.php');
-include('database/fetchOptions.php');
-$items = fetchItem();
 ?>
 
 <div id="dashboardMainContainer">
@@ -28,10 +26,9 @@ $items = fetchItem();
                     </div>
                     <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
                         <form action="database/PR_DB_add.php" method="POST" class="AddForm">
-                            <input type="hidden" name="PRStatus" id="PRStatus" value="pending">
                             <div class="addFormContainer mb-3">
                                 <label for="date_needed" class="form-label">Date Needed</label>
-                                <input type="date" class="form-control" name="dateNeeded" id="date_needed" required>
+                                <input type="date" class="form-control" name="dateNeeded" id="date_needed">
                             </div>
                             <!-- <div class="addFormContainer mb-3">
                                 <label for="estimated_cost" class="form-label">Estimated Cost</label>
@@ -39,9 +36,16 @@ $items = fetchItem();
                             </div> -->
                             <div class="addFormContainer mb-4">
                                 <label for="reason" class="form-label">Reason</label>
-                                <input type="text" class="form-control" name="reason" id="reason" required>
+                                <input type="text" class="form-control" name="reason" id="reason">
                             </div>
-                          
+                            <!-- <div class="addFormContainer mb-3">
+                                <label for="PRStatus" class="form-label">Status</label>
+                                <select class="form-control" name="PRStatus" id="PRStatus">
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="converted">Converted</option>
+                                </select>
+                            </div> -->
                             <div id="productContainer">
                                 <div class="d-flex justify-content-between mb-3">
                                     <label for="product" class="form-label pt-2">Product/s</label>
@@ -51,14 +55,7 @@ $items = fetchItem();
                                     </div>
                                 </div>
                                 <div class="productInput mb-2 d-flex">
-                                    <select class="form-control"  name="itemID[]" id="itemTemplate"  placeholder="Item Name">
-                                    <?php
-                                        foreach ($items as $item) { ?>
-                                        <option value="<?= htmlspecialchars($item['itemID'])?>">
-                                            <?= htmlspecialchars($item['itemName']) ?>
-                                        </option>
-                                     <?php } ?>
-                                    </select>
+                                    <input type="text" class="form-control" name="itemID[]" placeholder="Item Name">
                                     <input type="number" class="form-control mx-2" step="0.01" min="0" max="999999999.99" name="productEstimatedCost[]" placeholder="Estimated Cost">
                                     <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity">
                                     <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
@@ -80,15 +77,12 @@ $items = fetchItem();
     document.addEventListener('DOMContentLoaded', function() {
         const productContainer = document.getElementById('productContainer');
         const addProductButton = document.getElementById('addProductButton');
-        const itemTemplate = document.getElementById('itemTemplate').innerHTML;
 
         addProductButton.addEventListener('click', function() {
             const productInput = document.createElement('div');
             productInput.classList.add('productInput', 'mb-2', 'd-flex');
             productInput.innerHTML = `
-                <select class="form-control" name="itemID[]" placeholder="Item">
-                        ${itemTemplate}
-                </select>
+                <input type="text" class="form-control" name="itemID[]" placeholder="Item Name">
                 <input type="number" class="form-control mx-2" step="0.01" min="0" max="999999999.99" name="productEstimatedCost[]" placeholder="Estimated Cost">
                 <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity">
                 <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>

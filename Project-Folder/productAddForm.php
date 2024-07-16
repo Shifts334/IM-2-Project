@@ -66,24 +66,4 @@ include('partials/header.php');
     </div>
 </div>
 
-<script>
-    function script() {
-        this.initialize = function() {
-            this.registerEvents();
-        };
-
-        this.registerEvents = function() {
-            document.addEventListener('click', function(e) {
-                let targetElement = e.target;
-                let classList = targetElement.classList;
-
-            });
-        };
-
-        this.initialize();
-    }
-
-    new script();
-</script>
-
 <?php include('partials/footer.php'); ?>

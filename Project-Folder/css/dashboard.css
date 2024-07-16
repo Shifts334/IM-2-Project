@@ -4,7 +4,7 @@
 }
 
 .dashboard_sidebar {
-    width: 18%;
+    width: 20%;
     /* background: rgba(14, 31, 14, 0.954); */
     background-image: linear-gradient(to bottom right, #0e1f0ef3, #29514df3);
     height: 100vh;

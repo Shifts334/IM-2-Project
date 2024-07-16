@@ -22,7 +22,7 @@ function toggleSidebar(event) {
 
         document.getElementsByClassName('dashboard_menu_lists')[0].style.textAlign = 'center';
     } else {
-        dashboard_sidebar.style.width = '18%';
+        dashboard_sidebar.style.width = '20%';
         logoImage.style.padding = '38px 40px 40px 28px'; // Restore original padding
 
         var menuText = document.getElementsByClassName('menuText');

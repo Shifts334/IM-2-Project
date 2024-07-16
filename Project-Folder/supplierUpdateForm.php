@@ -41,7 +41,10 @@ if (isset($_GET['supplierID'])) {
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="contactNum" class="form-label">Contact Number</label>
-                                <input type="text" class="form-control" name="contactNum" id="contactNum" value="<?= $supplierData['contactNum'] ?? '' ?>">
+                                <div class="input-group">
+                                    <span class="input-group-text">+63</span>
+                                    <input type="tel" class="form-control" id="contactNum" name="contactNum" placeholder="XXX-XXX-XXXX">
+                                </div>
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="supplierEmail" class="form-label">Email</label>
@@ -65,5 +68,12 @@ if (isset($_GET['supplierID'])) {
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('contactNum').addEventListener('input', function(e) {
+        var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+</script>
 
 <?php include('partials/footer.php'); ?>
