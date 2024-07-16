@@ -20,10 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $user = $stmt->fetch();
 
-        if (password_verify($password, $user['password'])) {
+        if (password_verify($password, $user['password']) && $user['workStatus'] == 1) {
             $_SESSION['user'] = $user;
             header('Location: dashboard.php');
             exit();
+        } else if (password_verify($password, $user['password']) && $user['workStatus'] == 0) {
+            $error_message = "Account is inactive.";
         } else {
             $error_message = "Please make sure that your credentials are correct.";
         }

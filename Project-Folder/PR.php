@@ -17,13 +17,14 @@ include('partials/header.php');
 
         <div class="dashboard_content d-flex justify-content-center p-0">
             <div class="container m-0 p-0 mw-100">
-                <div class="card h-100 border-0">
+                <div class="card h-100 m-2">
                     <div class="card-header p-3 bg-white d-flex justify-content-between">
                         <h2 class="card-title m-2"><i class="fa fa-list"></i> Purchase Requests</h2>
                         <div class="d-flex m-2">
-                            <a href="#" class="btn btn-primary mx-2">
+                            <?php include('partials/PRSuggestionsModal.php') ?>
+                            <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#PRSuggestions">
                                 Suggestions
-                            </a>
+                            </button>
                             <a href="PRAddForm.php" class="btn btn-primary mx-2">
                                 Create Purchase Request
                             </a>
@@ -31,7 +32,7 @@ include('partials/header.php');
                     </div>
 
                     <div class="card-body p-0">
-                        <div class="table-responsive flex-grow-1" style="max-height: calc(100vh - 200px); overflow-y: auto;">
+                        <div class="table-responsive flex-grow-1" style="max-height: calc(100vh - 230px); overflow-y: auto;">
                             <table class="table table-hover table-striped border-top">
                                 <thead class="bg-white">
                                     <tr class="purchaseRequestAdd sticky-top">

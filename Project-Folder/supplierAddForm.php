@@ -20,7 +20,7 @@ include('partials/header.php');
                     <div class="card-header p-3 bg-white">
                         <h2 class="card-title m-2">Add Supplier</h2>
                     </div>
-                    <div class="card-body p-5">
+                    <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
                         <form action="database/supplier_DB_add.php" method="POST" class="AddForm">
                             <input type="hidden" name="supplierID" id="supplier_id">
                             <div class="addFormContainer mb-3">
@@ -38,6 +38,13 @@ include('partials/header.php');
                             <div class="addFormContainer mb-3">
                                 <label for="supplierEmail" class="form-label">Email</label>
                                 <input type="email" class="form-control" name="supplierEmail" id="supplierEmail">
+                            </div>
+                            <div class="addFormContainer mb-3">
+                                <label for="status">Status</label>
+                                <select id="status" name="status" class="form-control" required>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
                             </div>
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>

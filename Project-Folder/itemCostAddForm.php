@@ -18,7 +18,7 @@ include('partials/header.php');
             <div class="container">
                 <div class="card m-5">
                     <div class="card-header p-3 bg-white">
-                        <h2 class="card-title m-2">Add Product</h2>
+                        <h2 class="card-title m-2">Add Supplier</h2>
                     </div>
                     <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
                         <form action="database/product_DB_add.php" method="POST" class="AddForm">
