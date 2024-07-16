@@ -22,9 +22,15 @@ $items = fetchItem();
                     <div class="card-header p-3 bg-white d-flex justify-content-between">
                         <h2 class="card-title my-2 mx-4">Create Purchase Request</h2>
                         <?php include('partials/PRSuggestionsModal.php') ?>
-                        <button type="button" class="btn btn-primary my-2 mx-4" data-bs-toggle="modal" data-bs-target="#PRSuggestions">
-                            Suggestions
-                        </button>
+                        <?php include('partials/PRCostsModal.php') ?>
+                        <div class="mx-3">
+                            <button type="button" class="btn btn-primary my-2 px-4"  data-bs-toggle="modal" data-bs-target="#PRItemCosts">
+                                Prices
+                            </button>
+                            <button type="button" class="btn btn-primary my-2 mx-2" data-bs-toggle="modal" data-bs-target="#PRSuggestions">
+                                Suggestions
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body p-5" style="max-height: calc(100vh - 300px); overflow-y: auto;">
                         <form action="database/PR_DB_add.php" method="POST" class="AddForm">
@@ -41,7 +47,7 @@ $items = fetchItem();
                                 <label for="reason" class="form-label">Reason</label>
                                 <input type="text" class="form-control" name="reason" id="reason" required>
                             </div>
-                          
+
                             <div id="productContainer">
                                 <div class="d-flex justify-content-between mb-3">
                                     <label for="product" class="form-label pt-2">Product/s</label>
@@ -51,13 +57,13 @@ $items = fetchItem();
                                     </div>
                                 </div>
                                 <div class="productInput mb-2 d-flex">
-                                    <select class="form-control"  name="itemID[]" id="itemTemplate"  placeholder="Item Name">
-                                    <?php
+                                    <select class="form-control" name="itemID[]" id="itemTemplate" placeholder="Item Name">
+                                        <?php
                                         foreach ($items as $item) { ?>
-                                        <option value="<?= htmlspecialchars($item['itemID'])?>">
-                                            <?= htmlspecialchars($item['itemName']) ?>
-                                        </option>
-                                     <?php } ?>
+                                            <option value="<?= htmlspecialchars($item['itemID']) ?>">
+                                                <?= htmlspecialchars($item['itemName']) ?>
+                                            </option>
+                                        <?php } ?>
                                     </select>
                                     <input type="number" class="form-control mx-2" step="0.01" min="0" max="999999999.99" name="productEstimatedCost[]" placeholder="Estimated Cost">
                                     <input type="text" class="form-control" name="requestQuantity[]" placeholder="Quantity">
