@@ -1,42 +1,26 @@
 <?php
-// Ensure user is logged in
-if (!isset($_SESSION['user'])) {
-    $_SESSION['response'] = [
-        'success' => false,
-        'message' => 'You must be logged in to perform this action.'
-    ];
-    header('location: ../login.php');
-    exit();
-}
+include('connect.php'); // Include your database connection file
 
-include('connect.php');
-
-function getSuppliers($conn)
+function getSuppliers($itemID = null)
 {
-    try {
-        $stmt = $conn->prepare("SELECT supplierID, companyName FROM supplier");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        return ['error' => $e->getMessage()];
-    }
-}
+    global $conn;
 
-// Get suppliers and handle the response for AJAX calls
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'getSuppliers') {
-    $suppliers = getSuppliers($conn);
-    if (isset($suppliers['error'])) {
-        http_response_code(500);
-        echo json_encode(['error' => $suppliers['error']]);
+    if ($itemID) {
+        $query = $conn->prepare("SELECT s.supplierID, s.companyName, ic.cost FROM supplier s 
+                                 JOIN item_costs ic ON s.supplierID = ic.supplierID 
+                                 WHERE ic.itemID = :itemID");
+        $query->bindParam(':itemID', $itemID);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     } else {
-        echo json_encode($suppliers);
+        $query = $conn->query("SELECT supplierID, companyName FROM supplier");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-    exit();
 }
 
-// Fetch suppliers for the form
-$suppliers = getSuppliers($conn);
-if (isset($suppliers['error'])) {
-    echo "<p>Error fetching suppliers: " . $suppliers['error'] . "</p>";
-    $suppliers = [];
+// Only output JSON if this file is called directly
+if (basename($_SERVER['PHP_SELF']) == 'fetchSupplier.php') {
+    $itemID = isset($_GET['itemID']) ? $_GET['itemID'] : null;
+    $suppliers = getSuppliers($itemID);
+    echo json_encode($suppliers);
 }
