@@ -6,9 +6,6 @@
     <div class="dashboard_sidebar_menus">
         <ul class="dashboard_menu_lists">
             <li class="menuActive">
-                <a href="dashboard.php"><i class="fa fa-dashboard sidebar-icon"></i> <span class="menuText"> Dashboard</span></a>
-            </li>
-            <li class="menuActive">
                 <a href="userAdd.php"><i class="fa fa-user sidebar-icon"></i> <span class="menuText"> Profile List</span></a>
             </li>
             <li class="menuActive">

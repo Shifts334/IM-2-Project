@@ -9,12 +9,13 @@
               <a href="productAdd.php"><i class="fa fa-server sidebar-icon"></i> <span class="menuText"> Inventory</span></a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle"  id="purchaseRequestDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id="purchaseRequestDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-sticky-note sidebar-icon"></i> <span class="menuText">Purchase Requests</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="purchaseRequestDropdown">
-                    <li class="dropdown-item"><a href="PR.php">View All PRs</a></li>
-                    <li class="dropdown-item"><a href="PR.php">View All PRs</a></li>
+                    <li class="dropdown-item"><a href="PR.php">pending</a></li>
+                    <li class="dropdown-item"><a href="PR.php">approved</a></li>
+                    <li class="dropdown-item"><a href="PR.php">converted</a></li>
                     <!-- Add more dropdown items as needed -->
                 </ul>
             </li>
