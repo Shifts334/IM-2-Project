@@ -22,7 +22,6 @@ include('partials/header.php');
                         <h2 class="card-title m-2"><i class="fa fa-list"></i> List of Products</h2>
                         <div class="d-flex align-items-center m-2">
                             <input type="text" id="searchInput" class="search-bar mx-2 p-3" placeholder="Search for products...">
-                            <a href="productAddForm.php" class="btn btn-primary mx-2">Add New Product</a>
                         </div>
                     </div>
 
@@ -53,9 +52,6 @@ include('partials/header.php');
                                                 <button type="button" class="btn btn-sm btn-outline-success m-1" data-bs-toggle="modal" data-bs-target="#ItemSuppliers" data-item-id="<?= $product['itemID'] ?>">
                                                     <i class="fa fa-eye"></i> Suppliers
                                                 </button>
-                                                <a href="productUpdateForm.php?itemID=<?= $product['itemID'] ?>" class="btn btn-sm btn-outline-primary m-1">
-                                                    <i class="fa fa-pencil"></i> Edit
-                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
