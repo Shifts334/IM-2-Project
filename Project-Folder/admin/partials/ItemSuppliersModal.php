@@ -45,6 +45,10 @@
 
                 document.getElementById('itemName').textContent = itemName;
 
+                // Update the Add Supplier button link
+                const addSupplierButton = document.querySelector('#ItemSuppliers .btn-primary');
+                addSupplierButton.href = `ItemCostAddForm.php?itemID=${itemId}&itemName=${encodeURIComponent(itemName)}`;
+
                 // Fetch supplier data for the specific item
                 fetch('database/product_DB_add.php?action=getSuppliers&itemID=' + itemId)
                     .then(response => response.json())
@@ -57,7 +61,7 @@
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
                                     <td class="pt-3">${supplier.companyName}</td>
-                                    <td class="pt-3">${supplier.cost}</td>
+                                    <td class="pt-3">₱${supplier.cost}</td>
                                     <td class="pt-3">${supplier.status}</td>
                                 `;
                                 tableBody.appendChild(row);

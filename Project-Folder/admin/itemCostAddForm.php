@@ -10,6 +10,7 @@ if (isset($_GET['itemID'])) {
 $pageTitle = 'Add Supplier';
 include('partials/header.php');
 include('database/fetchSupplier.php'); // Include the file to fetch suppliers
+$suppliers = getSuppliers();
 
 $itemID = $_GET['itemID'];
 $itemName = $_GET['itemName'];

@@ -22,7 +22,7 @@ include('partials/header.php');
                         <h2 class="card-title m-2"><i class="fa fa-list"></i> Purchase Requests</h2>
                         <div class="d-flex m-2">
                             <?php include('partials/PRSuggestionsModal.php') ?>
-                            <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#PRSuggestions">
+                            <button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#PRSuggestions">
                                 Suggestions
                             </button>
                             <a href="PRAddForm.php" class="btn btn-primary mx-2">
@@ -36,11 +36,9 @@ include('partials/header.php');
                             <table class="table table-hover table-striped border-top">
                                 <thead class="bg-white">
                                     <tr class="purchaseRequestAdd sticky-top">
-                                        <th>#</th>
                                         <th>Requested By</th>
                                         <th>Date Requested</th>
                                         <th>Date Needed</th>
-                                        <th>Status</th>
                                         <th>Estimated Cost</th>
                                         <th>Action</th>
                                     </tr>
@@ -50,13 +48,18 @@ include('partials/header.php');
                                     $index = 0;
                                     foreach ($purchaseRequests as $request) { ?>
                                         <tr>
-                                            <td class="pt-3"><?= ++$index ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($request['requestedBy']) ?></td>
                                             <td class="pt-3"><?= date('M d, Y @ h:i:s A', strtotime($request['PRDateRequested'])) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($request['dateNeeded']) ?></td>
-                                            <td class="pt-3"><?= htmlspecialchars($request['PRStatus']) ?></td>
-                                            <td class="pt-3"><?= htmlspecialchars($request['estimatedCost']) ?></td>
-                                            <td class="text-center">
+                                            <td class="pt-3">₱<?= htmlspecialchars($request['estimatedCost']) ?></td>
+                                            <td class="text-center m-1">
+                                                <a href="PRUpdateForm.php?id=<?= $request['PRID'] ?>" class="btn btn-sm btn-outline-success m-1">
+                                                    <i class="fa fa-thumbs-up"></i> Approve
+                                                </a>
+                                                <?php include('partials/PRItemDetailsModal.php') ?>
+                                                <button type="button" class="btn btn-sm btn-outline-info m-1" data-bs-toggle="modal" data-bs-target="#PRItemDetails" data-pr-id="<?= $request['PRID'] ?>">
+                                                    <i class="fa fa-eye"></i> Details
+                                                </button>
                                                 <a href="PRUpdateForm.php?id=<?= $request['PRID'] ?>" class="btn btn-sm btn-outline-primary m-1">
                                                     <i class="fa fa-pencil"></i> Edit
                                                 </a>
@@ -69,7 +72,7 @@ include('partials/header.php');
                                 </tbody>
                             </table>
                         </div>
-                        <p class="text-muted mt-0 mx-3"><?= count($purchaseRequests) ?> Purchase Requests</p>
+                        <p class="text-muted mt-0 mx-3"><?= count($purchaseRequests) ?> Items</p>
                     </div>
                 </div>
             </div>

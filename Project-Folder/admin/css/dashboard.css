@@ -135,14 +135,11 @@
 }
 
 .dropdown-menu {
-    background-color: rgba(3, 6, 0, 0.985);
-    /* background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0));     */
+    background-color: rgba(11, 21, 2, 0.985);
     border: none;
-    border-radius: 0;
-    /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+    border-radius: 3%;
     width: 80%;
     margin: 0;
-    /* opacity: 50%; */
 }
 
 .dropdown-item {
