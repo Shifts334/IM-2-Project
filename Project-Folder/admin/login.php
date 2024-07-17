@@ -7,7 +7,7 @@ if (isset($_SESSION['user'])) {
 
 $error_message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    include('admin/database/connect.php');
+    include('database/connect.php');
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -21,16 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if (password_verify($password, $user['password']) && $user['workStatus'] == 1) {
-            if ($user['permissions'] == 'admin') {
-                $_SESSION['user'] = $user;
-                header('Location: admin/productAdd.php');
-                exit();
-
-            } else if($user['permissions'] == 'staff') {
-                $_SESSION['user'] = $user;
-                header('Location: staff/productAdd.php');
-                exit();
-            }
+            $_SESSION['user'] = $user;
+            header('Location: dashboard.php');
+            exit();
         } else if (password_verify($password, $user['password']) && $user['workStatus'] == 0) {
             $error_message = "Account is inactive.";
         } else {
