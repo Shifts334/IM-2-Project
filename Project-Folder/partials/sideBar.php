@@ -8,17 +8,23 @@
             <li class="menuActive">
                 <a href="userAdd.php"><i class="fa fa-user sidebar-icon"></i> <span class="menuText"> Profile List</span></a>
             </li>
-            <li class="menuActive">
-                <a href="productAdd.php"><i class="fa fa-server sidebar-icon"></i> <span class="menuText"> Inventory</span></a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="purchaseRequestDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-server sidebar-icon"></i> <span class="menuText"> Inventory</span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="purchaseRequestDropdown">
+                    <li class="dropdown-item"><a href="productAdd.php">Items</a></li>
+                    <li class="dropdown-item"><a href="itemChanges.php">Changes</a></li>
+                    <!-- Add more dropdown items as needed -->
+                </ul>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="purchaseRequestDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-sticky-note sidebar-icon"></i> <span class="menuText">Purchase Requests</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="purchaseRequestDropdown">
-                    <li class="dropdown-item"><a href="PR.php">pending</a></li>
-                    <li class="dropdown-item"><a href="PR.php">approved</a></li>
-                    <li class="dropdown-item"><a href="PR.php">converted</a></li>
+                    <li class="dropdown-item"><a href="PR.php">Pending</a></li>
+                    <li class="dropdown-item"><a href="PR.php">History</a></li>
                     <!-- Add more dropdown items as needed -->
                 </ul>
             </li>
