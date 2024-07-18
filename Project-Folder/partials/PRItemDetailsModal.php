@@ -5,10 +5,15 @@
                 <div class="d-flex align-items-center">
                     <h5 class="modal-title" id="PRItemDetailsViewLabel">Purchase Request Details</h5>
                     <div class="vr mx-2"></div>
-                    <p class="mb-0 text-muted">
-                        <small>Total Cost:</small>
-                        <span id="totalCost">0</span>
-                    </p>
+                    <p class="mb-0 text-muted"><small>
+                            <span>Total Cost:</span>
+                            <span id="totalCost">0</span>
+                        </small></p>
+                    <div class="vr mx-2"></div>
+                    <p class="mb-0 text-muted"><small>
+                            <span>Reason: </span>
+                            <span id="prReason"></span>
+                        </small></p>
                 </div>
                 <div class="d-flex align-items-center">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -28,14 +33,14 @@
                                 <th>Estimated Cost</th>
                             </tr>
                         </thead>
-                        <tbody id="PRDetailsTableBody">
+                        <tbody id="PRDetailsTableBody" class="text-start">
                             <tr>
                                 <td colspan="4" class="pt-3 text-center">No items found.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p class="text-muted mt-0" id="productCount">0 Products</p>
+                <p class="text-muted mt-0 mb-0 text-start" style="font-size: 16px;" id="productCount">0 Products</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -56,10 +61,13 @@
         xhr.open('GET', 'database/fetchPRDetails.php?PRID=' + PRID, true);
         xhr.onload = function() {
             if (this.status === 200) {
-                var products = JSON.parse(this.responseText);
+                var response = JSON.parse(this.responseText);
+                var products = response.products;
+                var reason = response.reason;
                 var tableBody = document.getElementById('PRDetailsTableBody');
                 var productCount = document.getElementById('productCount');
                 var totalCostElement = document.getElementById('totalCost');
+                var reasonElement = document.getElementById('prReason');
 
                 // Clear existing table rows
                 tableBody.innerHTML = '';
@@ -86,6 +94,7 @@
 
                 productCount.textContent = `${products.length} Products`;
                 totalCostElement.textContent = totalCost.toFixed(2); // Set total cost
+                reasonElement.textContent = reason; // Set reason
             }
         };
         xhr.send();
