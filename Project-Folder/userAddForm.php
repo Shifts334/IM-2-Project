@@ -45,7 +45,7 @@ include('partials/header.php');
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" name="email" id="email">
+                                <input type="email" class="form-control" name="email" id="email">
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="password" class="form-label">Password</label>
