@@ -50,7 +50,7 @@
                         </tbody>
                     </table>
                 </div>
-                <p class="text-muted mt-0 mb-0"><?= count($groupedProducts) ?> Products</p>
+                <p class="text-muted mt-0"><?= count($groupedProducts) ?> Products</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

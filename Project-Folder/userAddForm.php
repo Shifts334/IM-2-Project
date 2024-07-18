@@ -37,16 +37,15 @@ include('partials/header.php');
                                 <input type="text" class="form-control" name="department" id="department">
                             </div>
                             <div class="addFormContainer mb-3">
-                                <label for="permissions" class="form-label">Position</label>
+                                <label for="permissions" class="form-label">Permissions</label>
                                 <select class="form-control" name="permissions" id="permissions">
-                                    <option value="Purchasing head">Purchasing Head</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="IT">IT</option>
+                                    <option value="staff">Staff</option>
+                                    <option value="admin">Admin</option>
                                 </select>
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="email">
+                                <input type="text" class="form-control" name="email" id="email">
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="password" class="form-label">Password</label>

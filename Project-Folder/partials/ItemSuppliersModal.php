@@ -18,7 +18,6 @@
                                 <th>Company Name</th>
                                 <th>Company Item Cost</th>
                                 <th>Status</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="supplierTableBody">

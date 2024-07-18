@@ -98,14 +98,6 @@ include('partials/header.php');
                                     <td class="pt-3">${supplier.companyName}</td>
                                     <td class="pt-3">${supplier.cost}</td>
                                     <td class="pt-3">${supplier.status}</td>
-                                    <td class="text-center">
-                                        <a href="supplierUpdateForm.php?supplierID=${supplier.supplierID}" class="btn btn-sm btn-outline-primary m-1">
-                                            <i class="fa fa-pencil"></i> Edit
-                                        </a>
-                                        <button class="btn btn-sm btn-outline-danger deleteSupplier m-1" data-supplier-id="${supplier.supplierID}" data-company-name="${supplier.companyName}">
-                                            <i class="fa fa-trash"></i> Delete
-                                        </button>
-                                    </td>
                                 `;
                                 tableBody.appendChild(row);
                             });

@@ -16,14 +16,7 @@ $user = $_SESSION['user'];
 $table_name = 'supplier'; // Directly using the supplier table name
 $company_name = $_POST['companyName'];
 $address = $_POST['address'];
-
-// Process the contact number
 $contact_num = $_POST['contactNum'];
-if (substr($contact_num, 0, 1) === '0') {
-    $contact_num = substr($contact_num, 1); // Remove leading 0 if present
-}
-$contact_num = '+63' . ' ' . $contact_num; // Add +63 prefix
-
 $supplier_email = $_POST['supplierEmail'];
 $supplier_id = isset($_POST['supplierID']) ? $_POST['supplierID'] : null;
 $status = $_POST['status'];
@@ -72,3 +65,4 @@ try {
 
 $_SESSION['response'] = $response;
 header('location: ../supplierAdd.php');
+?>

@@ -5,7 +5,7 @@ $_SESSION['table'] = 'item'; // Use the new table name
 $user = $_SESSION['user'];
 $changes = include('database/showChange.php');
 
-$pageTitle = 'Quantity Changes';
+$pageTitle = 'Inventory Changes';
 include('partials/header.php');
 ?>
 
@@ -17,9 +17,9 @@ include('partials/header.php');
 
         <div class="dashboard_content d-flex justify-content-center">
             <div class="container m-0 p-0 mw-100">
-                <div class="card h-100 m-2">
+                <div class="card h-100 border-0">
                     <div class="card-header p-3 bg-white d-flex justify-content-between">
-                        <h2 class="card-title m-2"><i class="fa fa-list"></i> Quantity Changes</h2>
+                        <h2 class="card-title m-2"><i class="fa fa-list"></i> Inventory Changes</h2>
                     </div>
 
                     <div class="card-body p-0">
