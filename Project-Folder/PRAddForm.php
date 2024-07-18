@@ -68,6 +68,7 @@ $items = fetchItem();
                                     <input type="number" min="0" max="99999" class="form-control quantity-input" name="requestQuantity[]" placeholder="Quantity">
                                     <span class="form-control mx-1 item-cost-span text-muted"><span>Item Cost:</span> <span class="item-cost-value"></span></span>
                                     <span class="form-control total-cost-span text-muted"><span>Total:</span> <span class="total-cost-value"></span></span>
+                                    <input type="hidden" name="estimatedCost[]" class="estimated-cost-input">
                                     <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
                                 </div>
                             </div>
@@ -102,6 +103,7 @@ $items = fetchItem();
                 <input type="number" min="0" max="99999" class="form-control quantity-input" name="requestQuantity[]" placeholder="Quantity">
                 <span class="form-control mx-1 item-cost-span text-muted"><span>Item Cost:</span> <span class="item-cost-value"></span></span>
                 <span class="form-control total-cost-span text-muted"><span>Total:</span> <span class="total-cost-value"></span></span>
+                <input type="hidden" name="estimatedCost[]" class="estimated-cost-input">
                 <button type="button" class="btn btn-danger btn-sm removeProduct mx-2">Remove</button>
             `;
             productContainer.appendChild(productInput);
@@ -118,6 +120,7 @@ $items = fetchItem();
             const itemSelect = productInput.querySelector('select[name="itemID[]"]');
             const supplierSelect = productInput.querySelector('select[name="supplier[]"]');
             const quantityInput = productInput.querySelector('input[name="requestQuantity[]"]');
+            const estimatedCostInput = productInput.querySelector('input[name="estimatedCost[]"]');
 
             itemSelect.addEventListener('change', updateSuppliers);
             supplierSelect.addEventListener('change', updateCost);
@@ -153,7 +156,10 @@ $items = fetchItem();
                 const itemCost = parseFloat(productInput.querySelector('.item-cost-value').textContent) || 0;
                 const quantity = parseFloat(quantityInput.value) || 0;
                 const totalCostSpan = productInput.querySelector('.total-cost-value');
-                totalCostSpan.textContent = (itemCost * quantity).toFixed(2);
+                const estimatedCostInput = productInput.querySelector('.estimated-cost-input');
+                const totalCost = itemCost * quantity;
+                totalCostSpan.textContent = totalCost.toFixed(2);
+                estimatedCostInput.value = totalCost.toFixed(2);
             }
         }
 

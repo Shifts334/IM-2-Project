@@ -51,7 +51,7 @@ include('partials/header.php');
                                             <td class="pt-3"><?= htmlspecialchars($user['department']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['permissions']) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($user['email']) ?></td>
-                                            <td class="pt-3"><?= date('M d, Y @ h:i:s A', strtotime($user['created_at'])) ?></td>
+                                            <td class="pt-3"><?= date('M d, Y', strtotime($user['created_at'])) ?></td>
                                             <td class="pt-3"><?= $user['workStatus'] == 1 ? "Active" : "Inactive" ?></td>
                                             <td class="text-center">
                                                 <a href="userUpdateForm.php?userID=<?= $user['userID'] ?>" class="btn btn-sm btn-outline-primary m-1">

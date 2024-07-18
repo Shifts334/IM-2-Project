@@ -49,13 +49,10 @@ include('partials/header.php');
                                     foreach ($purchaseRequests as $request) { ?>
                                         <tr>
                                             <td class="pt-3"><?= htmlspecialchars($request['requestedBy']) ?></td>
-                                            <td class="pt-3"><?= date('M d, Y @ h:i:s A', strtotime($request['PRDateRequested'])) ?></td>
+                                            <td class="pt-3"><?= date('M d, Y', strtotime($request['PRDateRequested'])) ?></td>
                                             <td class="pt-3"><?= htmlspecialchars($request['dateNeeded']) ?></td>
                                             <td class="pt-3">₱<?= htmlspecialchars($request['estimatedCost']) ?></td>
                                             <td class="text-center m-1">
-                                                <a href="PRUpdateForm.php?id=<?= $request['PRID'] ?>" class="btn btn-sm btn-outline-success m-1">
-                                                    <i class="fa fa-thumbs-up"></i> Approve
-                                                </a>
                                                 <?php include('partials/PRItemDetailsModal.php') ?>
                                                 <button type="button" class="btn btn-sm btn-outline-info m-1" data-bs-toggle="modal" data-bs-target="#PRItemDetails" data-pr-id="<?= $request['PRID'] ?>">
                                                     <i class="fa fa-eye"></i> Details

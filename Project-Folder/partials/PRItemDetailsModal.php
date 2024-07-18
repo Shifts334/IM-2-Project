@@ -6,7 +6,7 @@
                     <h5 class="modal-title" id="PRItemDetailsViewLabel">Purchase Request Details</h5>
                     <div class="vr mx-2"></div>
                     <p class="mb-0 text-muted">
-                        <small>Total Cost: </small>
+                        <small>Total Cost:</small>
                         <span id="totalCost">0</span>
                     </p>
                 </div>
@@ -23,13 +23,14 @@
                         <thead class="bg-white">
                             <tr class="sticky-top">
                                 <th>Item Name</th>
+                                <th>Supplier</th>
                                 <th>Quantity</th>
                                 <th>Estimated Cost</th>
                             </tr>
                         </thead>
                         <tbody id="PRDetailsTableBody">
                             <tr>
-                                <td colspan="3" class="pt-3 text-center">No items found.</td>
+                                <td colspan="4" class="pt-3 text-center">No items found.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -71,6 +72,7 @@
                         var row = document.createElement('tr');
                         row.innerHTML = `
                             <td class="pt-3">${product.itemName}</td>
+                            <td class="pt-3">${product.supplierName}</td>
                             <td class="pt-3">${product.requestQuantity}</td>
                             <td class="pt-3">${product.estimatedCost}</td>
                         `;
@@ -78,7 +80,7 @@
                     });
                 } else {
                     var row = document.createElement('tr');
-                    row.innerHTML = `<td colspan="3" class="pt-3 text-center">No items found.</td>`;
+                    row.innerHTML = `<td colspan="4" class="pt-3 text-center">No items found.</td>`;
                     tableBody.appendChild(row);
                 }
 
