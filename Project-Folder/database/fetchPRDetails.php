@@ -1,16 +1,17 @@
 <?php
 header('Content-Type: application/json');
 
-// Adjust the path to connect.php based on its actual location
-include('connect.php');  // Ensure this path is correct
+include('connect.php');
 
 if (isset($_GET['PRID'])) {
     $PRID = $_GET['PRID'];
 
     try {
-        $stmt = $conn->prepare("SELECT item.itemName, pr_item.requestQuantity, pr_item.estimatedCost 
+        $stmt = $conn->prepare("SELECT item.itemName, pr_item.requestQuantity, pr_item.estimatedCost,
+                                COALESCE(supplier.companyName, 'No Supplier') AS supplierName
                                 FROM pr_item 
                                 JOIN item ON pr_item.itemID = item.itemID 
+                                LEFT JOIN supplier ON pr_item.supplierID = supplier.supplierID
                                 WHERE pr_item.PRID = :PRID
                                 ORDER BY item.itemName ASC");
         $stmt->bindParam(':PRID', $PRID, PDO::PARAM_INT);
