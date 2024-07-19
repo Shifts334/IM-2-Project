@@ -33,7 +33,7 @@ include('partials/header.php');
                             <table class="table table-hover table-striped border-top">
                                 <thead class="bg-white">
                                     <tr class="userAdd sticky-top">
-                                        <th>Company Name</th>
+                                        <th>Supplier Name</th>
                                         <th>Address</th>
                                         <th>Contact Number</th>
                                         <th>Email</th>

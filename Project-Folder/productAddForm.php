@@ -37,11 +37,11 @@ include('partials/header.php');
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" step="1" min="0" class="form-control" name="quantity" id="quantity">
+                                <input type="number" step="1" min="0" max="99999" class="form-control" name="quantity" id="quantity">
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="minStockLevel" class="form-label">Min Stock Level</label>
-                                <input type="number" step="1" min="0" class="form-control" name="minStockLevel" id="minStockLevel">
+                                <input type="number" step="1" min="0" max="99999" class="form-control" name="minStockLevel" id="minStockLevel">
                             </div>
                             <div class="addFormContainer mb-3">
                                 <!-- <label for="itemStatus" class="form-label">Item Status</label>

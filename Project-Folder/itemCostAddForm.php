@@ -45,7 +45,11 @@ $itemName = $_GET['itemName'];
                             </div>
                             <div class="addFormContainer mb-3">
                                 <label for="itemCost" class="form-label">Item Cost</label>
-                                <input type="number" step="0.01" min="0" max="99999.99" class="form-control" name="itemCost" id="itemCost" required>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="number" step="0.01" min="0" max="99999.99" class="form-control" name="itemCost" id="itemCost" required>
+                                </div>
+                                
                             </div>
                             <div class="d-flex flex-row-reverse flex-wrap">
                                 <button type="submit" class="btn btn-primary mx-1 mt-4">Submit</button>

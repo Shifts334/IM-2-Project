@@ -53,7 +53,7 @@ include('partials/header.php');
                                                 <button type="button" class="btn btn-sm btn-outline-success m-1" data-bs-toggle="modal" data-bs-target="#ItemSuppliers" data-item-id="<?= $product['itemID'] ?>">
                                                     <i class="fa fa-eye"></i> Suppliers
                                                 </button>
-                                                <a href="productUpdateForm.php?itemID=<?= $product['itemID'] ?>" class="btn btn-sm btn-outline-primary m-1">
+                                                <a href="productUpdateForm.php?itemID=<?= $product['itemID'] ?>" class="btn btn-sm btn-outline-primary m-1 product-edit-btn">
                                                     <i class="fa fa-pencil"></i> Edit
                                                 </a>
                                             </td>
@@ -70,52 +70,67 @@ include('partials/header.php');
     </div>
 </div>
 
-<!-- Include the itemSuppliersModal.php here -->
 <?php include('partials/ItemSuppliersModal.php'); ?>
 
 <script>
     // Function to attach modal event listeners
-    function attachModalListeners() {
-        const modalButtons = document.querySelectorAll('button[data-bs-toggle="modal"]');
-        modalButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const itemId = this.getAttribute('data-item-id');
-                const itemName = this.closest('tr').querySelector('td:nth-child(1)').textContent;
+    document.addEventListener('DOMContentLoaded', function() {
+        attachModalListeners();
 
-                document.getElementById('itemName').textContent = itemName;
+        function attachModalListeners() {
+            const modalButtons = document.querySelectorAll('button[data-bs-toggle="modal"]');
+            modalButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = this.getAttribute('data-item-id');
+                    const itemName = this.closest('tr').querySelector('td:nth-child(1)').textContent;
 
-                // Fetch supplier data for the specific item
-                fetch('database/product_DB_add.php?action=getSuppliers&itemID=' + itemId)
-                    .then(response => response.json())
-                    .then(data => {
-                        const tableBody = document.getElementById('supplierTableBody');
-                        tableBody.innerHTML = '';
+                    document.getElementById('itemName').textContent = itemName;
 
-                        if (data.length > 0) {
-                            data.forEach(supplier => {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                    <td class="pt-3">${supplier.companyName}</td>
-                                    <td class="pt-3">${supplier.cost}</td>
-                                    <td class="pt-3">${supplier.status}</td>
-                                `;
-                                tableBody.appendChild(row);
-                            });
-                        } else {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `<td colspan="3" class="pt-3 text-center">No suppliers available</td>`;
-                            tableBody.appendChild(row);
-                        }
+                    // Fetch supplier data for the specific item
+                    fetch('database/product_DB_add.php?action=getSuppliers&itemID=' + itemId)
+                        .then(response => response.json())
+                        .then(data => {
+                            const tableBody = document.getElementById('supplierTableBody');
+                            if (tableBody) {
+                                tableBody.innerHTML = '';
 
-                        document.getElementById('supplierCount').textContent = data.length + ' Suppliers';
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while fetching supplier data.');
-                    });
+                                if (data.length > 0) {
+                                    data.forEach(supplier => {
+                                        const row = document.createElement('tr');
+                                        row.innerHTML = `
+                                            <td class="pt-3">${supplier.companyName}</td>
+                                            <td class="pt-3">₱${supplier.cost}</td>
+                                            <td class="pt-3">${supplier.status}</td>
+                                            <td class="text-center">
+                                                <a href="itemCostUpdateForm.php?itemID=${itemId}&supplierID=${supplier.supplierID}&supplierName=${encodeURIComponent(supplier.companyName)}&itemName=${encodeURIComponent(itemName)}&currentPrice=${supplier.cost}" class="btn btn-sm btn-outline-primary m-1">
+                                                    <i class="fa fa-pencil"></i> Edit
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-danger deleteSupplier m-1" data-item-id="${itemId}" data-supplier-id="${supplier.supplierID}" data-company-name="${supplier.companyName}">
+                                                    <i class="fa fa-trash"></i> Delete
+                                                </button>
+                                            </td>
+                                        `;
+                                        tableBody.appendChild(row);
+                                    });
+                                } else {
+                                    const row = document.createElement('tr');
+                                    row.innerHTML = `<td colspan="4" class="pt-3 text-center">No suppliers available</td>`;
+                                    tableBody.appendChild(row);
+                                }
+
+                                document.getElementById('supplierCount').textContent = data.length + ' Suppliers';
+                            } else {
+                                console.error('Error: Element with ID "supplierTableBody" not found.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while fetching supplier data.');
+                        });
+                });
             });
-        });
-    }
+        }
+    });
 
     // Search bar functionality
     document.addEventListener('DOMContentLoaded', function() {
@@ -152,24 +167,72 @@ include('partials/header.php');
 
                 if (confirm(`Are you sure you want to delete ${productName}?`)) {
                     fetch('database/deleteProd.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ itemID: productId }),
-                    })
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                itemID: productId
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert(data.message);
+                            if (data.success) {
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred. Please try again.');
+                        });
+                }
+            }
+
+            if (e.target.closest('.deleteSupplier')) {
+                e.preventDefault();
+                const deleteButton = e.target.closest('.deleteSupplier');
+                const itemId = deleteButton.dataset.itemId;
+                const companyName = deleteButton.dataset.companyName;
+
+                // Fetch the supplier ID based on item ID
+                fetch(`database/fetchSupplierID.php?itemID=${itemId}&companyName=${encodeURIComponent(companyName)}`)
                     .then(response => response.json())
                     .then(data => {
-                        alert(data.message);
                         if (data.success) {
-                            location.reload();
+                            const supplierId = data.supplierID;
+
+                            if (confirm(`Are you sure you want to delete the supplier ${companyName}?`)) {
+                                fetch('database/deleteCost.php', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({
+                                            itemID: itemId,
+                                            supplierID: supplierId
+                                        }),
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        alert(data.message);
+                                        if (data.success) {
+                                            location.reload();
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        alert('An error occurred. Please try again.');
+                                    });
+                            }
+                        } else {
+                            alert(data.message);
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('An error occurred. Please try again.');
+                        alert('An error occurred while fetching supplier ID.');
                     });
-                }
             }
         });
 
