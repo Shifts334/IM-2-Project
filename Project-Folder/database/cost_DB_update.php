@@ -5,7 +5,7 @@ session_start();
 if (!isset($_SESSION['user'])) {
     $_SESSION['response'] = [
         'success' => false,
-        'message' => 'You must be logged in to add an item cost.'
+        'message' => 'You must be logged in to add or update an item cost.'
     ];
     header('location: ../login.php');
     exit();
@@ -15,36 +15,49 @@ $user = $_SESSION['user'];
 $table_name = 'item_costs';
 
 // Validate and sanitize input
-$supplier_id = filter_input(INPUT_POST, 'supplier', FILTER_VALIDATE_INT);
 $item_cost = filter_input(INPUT_POST, 'itemCost', FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 $item_id = filter_input(INPUT_POST, 'itemID', FILTER_VALIDATE_INT);
+$supplier_name = filter_input(INPUT_POST, 'supplierName', FILTER_SANITIZE_STRING);
 
-if (!$item_id || !$supplier_id || !$item_cost) {
+if (!$item_id || !$item_cost || !$supplier_name) {
     $_SESSION['response'] = [
         'success' => false,
         'message' => 'Invalid input. Please check your entries and try again.'
     ];
-    header('location: ../itemCostAddForm.php');
+    header('location: ../itemCostUpdateForm.php');
     exit();
 }
 
 try {
     include('connect.php');
 
-    // Check if a cost entry already exists for this item and supplier
-    $check_command = "SELECT * FROM $table_name WHERE itemID = :itemID AND supplierID = :supplierID";
-    $check_stmt = $conn->prepare($check_command);
-    $check_stmt->bindParam(':itemID', $item_id, PDO::PARAM_INT);
-    $check_stmt->bindParam(':supplierID', $supplier_id, PDO::PARAM_INT);
-    $check_stmt->execute();
+    // Retrieve the supplierID based on the supplierName
+    $stmt = $conn->prepare("
+        SELECT supplierID 
+        FROM supplier 
+        WHERE companyName = :supplierName
+    ");
+    $stmt->bindParam(':supplierName', $supplier_name, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($check_stmt->rowCount() > 0) {
-        // Update existing entry
-        $command = "UPDATE $table_name SET cost = :cost WHERE itemID = :itemID AND supplierID = :supplierID";
-    } else {
-        // Insert new entry
-        $command = "INSERT INTO $table_name (itemID, supplierID, cost) VALUES (:itemID, :supplierID, :cost)";
+    if (!$result) {
+        $_SESSION['response'] = [
+            'success' => false,
+            'message' => 'Supplier not found for the given name.'
+        ];
+        header('location: ../itemCostUpdateForm.php');
+        exit();
     }
+
+    $supplier_id = $result['supplierID'];
+
+    // Update the cost for the given itemID and supplierID
+    $command = "
+        UPDATE $table_name 
+        SET cost = :cost 
+        WHERE itemID = :itemID AND supplierID = :supplierID
+    ";
 
     $stmt = $conn->prepare($command);
     $stmt->bindParam(':itemID', $item_id, PDO::PARAM_INT);
@@ -54,7 +67,7 @@ try {
 
     $response = [
         'success' => true,
-        'message' => 'Supplier cost successfully added.'
+        'message' => 'Item cost successfully updated.'
     ];
 } catch (PDOException $e) {
     $response = [
